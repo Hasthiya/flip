@@ -5,9 +5,10 @@ export default function Header() {
     <header
       className="showcase-header"
       style={{
-        borderBottom: "1px solid #e5e5e5",
+        borderBottom: "1px solid var(--border)",
         display: "flex",
         alignItems: "center",
+        justifyContent: "space-between",
         gap: "1.5rem",
         flexWrap: "wrap",
       }}
@@ -15,30 +16,72 @@ export default function Header() {
       <Link
         href="/"
         style={{
-          fontWeight: 700,
-          fontSize: "1.125rem",
-          color: "#1a1a1a",
+          display: "flex",
+          alignItems: "center",
+          gap: "0.5rem",
           textDecoration: "none",
+          color: "var(--text)",
         }}
       >
-        FlipClock
+        <div
+          style={{
+            width: "28px",
+            height: "28px",
+            backgroundColor: "#1a1a1a",
+            borderRadius: "4px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <span
+            style={{
+              color: "#fff",
+              fontWeight: 700,
+              fontSize: "1rem",
+              fontFamily: "var(--font-inter), system-ui, sans-serif",
+            }}
+          >
+            F
+          </span>
+        </div>
+        <span
+          style={{
+            fontWeight: 700,
+            fontSize: "1.125rem",
+          }}
+        >
+          FlipClock
+        </span>
       </Link>
       <nav style={{ display: "flex", gap: "1rem" }}>
         <Link
           href="/demo"
-          style={{ color: "#555", textDecoration: "none", fontSize: "0.9375rem" }}
+          style={{
+            color: "var(--text-muted)",
+            textDecoration: "none",
+            fontSize: "0.9375rem",
+          }}
         >
           Demo
         </Link>
         <Link
           href="/docs"
-          style={{ color: "#555", textDecoration: "none", fontSize: "0.9375rem" }}
+          style={{
+            color: "var(--text-muted)",
+            textDecoration: "none",
+            fontSize: "0.9375rem",
+          }}
         >
           Docs
         </Link>
         <Link
           href="/examples"
-          style={{ color: "#555", textDecoration: "none", fontSize: "0.9375rem" }}
+          style={{
+            color: "var(--text-muted)",
+            textDecoration: "none",
+            fontSize: "0.9375rem",
+          }}
         >
           Examples
         </Link>

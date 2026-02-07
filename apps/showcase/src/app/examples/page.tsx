@@ -40,8 +40,8 @@ const examples: Array<{
   node: (opts: BreakpointOpts) => React.ReactNode;
 }> = [
   {
-    title: "Minimal",
-    description: "Default countdown with no extra props.",
+    title: "Minimal Classic",
+    description: "The default appearance with no extra props.",
     code: `<FlipClock targetDate={new Date("2026-12-31T00:00:00")} />`,
     node: (opts) => {
       if (!opts.mounted) return placeholderNode();
@@ -132,36 +132,47 @@ const examples: Array<{
     },
   },
   {
-    title: "Dashboard-style embed",
-    description: "Compact clock, hours/minutes/seconds only.",
+    title: "Warm amber",
+    description: "Retro warm palette with amber digits and dark cards.",
     code: `<FlipClock
   targetDate={new Date("2026-12-31T00:00:00")}
-  segments={{ days: false, hours: true, minutes: true, seconds: true }}
-  cardStyle={{ width: "4.5rem", height: "6rem" }}
-  digitStyle={{ fontSize: "3rem" }}
-  separator={{ type: "colon" }}
+  cardStyle={{
+    background: "#292524",
+    backgroundDark: "#1c1917",
+    borderRadius: "0.5rem",
+  }}
+  digitStyle={{ color: "#f59e0b", fontSize: "4.5rem" }}
+  labelStyle={{ color: "#a8a29e" }}
+  separator={{ type: "dot", color: "#f59e0b" }}
 />`,
     node: (opts) => {
       if (!opts.mounted) return placeholderNode();
+      const { cardStyle: sizeCard, digitStyle: sizeDigit } = sizeFromBreakpoint(opts);
       return (
-        <div
-          style={{
-            padding: "1rem",
-            background: "#fafafa",
-            borderRadius: "0.75rem",
-            border: "1px solid #eee",
-            display: "inline-block",
+        <FlipClock
+          targetDate={nextNewYear()}
+          cardStyle={{
+            ...sizeCard,
+            background: "#292524",
+            backgroundDark: "#1c1917",
+            borderRadius: "0.5rem",
+            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
           }}
-        >
-          <FlipClock
-            targetDate={nextNewYear()}
-            segments={SEGMENTS_NO_DAYS}
-            cardStyle={{ width: "4.5rem", height: "6rem" }}
-            digitStyle={{ fontSize: "3rem" }}
-            separator={{ type: "colon" }}
-            orientation={opts.isSmall ? "column" : "row"}
-          />
-        </div>
+          digitStyle={{
+            ...sizeDigit,
+            color: "#f59e0b",
+            fontFamily: "var(--font-bebas), 'Bebas Neue', sans-serif",
+          }}
+          labelStyle={{
+            color: "#a8a29e",
+            fontFamily: "var(--font-inter), 'Inter', sans-serif",
+            fontSize: "0.8rem",
+          }}
+          separator={{ type: "dot", color: "#f59e0b", size: "0.35rem" }}
+          groupGap="2rem"
+          segments={SEGMENTS_NO_DAYS}
+          orientation={opts.isSmall ? "column" : "row"}
+        />
       );
     },
   },
@@ -193,19 +204,18 @@ export default function ExamplesPage() {
       <header style={{ marginBottom: "2rem" }}>
         <h1
           style={{
-            fontFamily: "var(--font-bebas), 'Bebas Neue', sans-serif",
             fontSize: "clamp(1.75rem, 4vw, 2rem)",
-            fontWeight: 400,
+            fontWeight: 700,
             letterSpacing: "0.02em",
-            color: "#1a1a1a",
+            color: "var(--text)",
             marginBottom: "0.5rem",
           }}
         >
-          Examples
+          EXAMPLES
         </h1>
         <p
           style={{
-            color: "#666",
+            color: "var(--text-muted)",
             fontSize: "1rem",
             lineHeight: 1.5,
             maxWidth: "42ch",
@@ -220,10 +230,10 @@ export default function ExamplesPage() {
           <section
             key={ex.title}
             style={{
-              background: "#fff",
+              background: "var(--bg)",
               borderRadius: "0.75rem",
               boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
-              border: "1px solid #eee",
+              border: "1px solid var(--border)",
               padding: isNarrow ? "1.25rem" : "1.5rem",
               overflow: "hidden",
             }}
@@ -233,18 +243,18 @@ export default function ExamplesPage() {
                 style={{
                   fontSize: "0.75rem",
                   fontWeight: 600,
-                  color: "#999",
+                  color: "var(--text-muted)",
                   letterSpacing: "0.05em",
                   textTransform: "uppercase",
                 }}
               >
-                Example {index + 1}
+                EXAMPLE {index + 1}
               </span>
               <h2
                 style={{
                   fontSize: "1.25rem",
                   fontWeight: 600,
-                  color: "#1a1a1a",
+                  color: "var(--text)",
                   marginTop: "0.25rem",
                   marginBottom: "0.5rem",
                 }}
@@ -253,7 +263,7 @@ export default function ExamplesPage() {
               </h2>
               <p
                 style={{
-                  color: "#666",
+                  color: "var(--text-muted)",
                   fontSize: "0.9375rem",
                   lineHeight: 1.5,
                 }}
@@ -273,12 +283,26 @@ export default function ExamplesPage() {
                 overflow: "visible",
               }}
             >
-              {ex.node(breakpointOpts)}
+              <div
+                style={{
+                  background: "#fafafa",
+                  borderRadius: "0.75rem",
+                  border: "1px solid var(--border)",
+                  padding: "1.5rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: "100%",
+                  minHeight: "10rem",
+                }}
+              >
+                {ex.node(breakpointOpts)}
+              </div>
             </div>
             <pre
               style={{
-                background: "#1a1a1a",
-                color: "#e5e5e5",
+                background: "var(--code-bg)",
+                color: "var(--code-text)",
                 padding: "1rem",
                 borderRadius: "0.5rem",
                 overflow: "auto",

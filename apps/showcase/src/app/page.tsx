@@ -42,10 +42,21 @@ export default function HomePage() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        padding: !mounted ? "8rem" : isSmall ? "3rem" : "8rem",
+        padding: !mounted ? "4rem" : isSmall ? "3rem 1rem" : "4rem 2rem",
         gap: "2.5rem",
       }}
     >
+      <h1
+        style={{
+          fontSize: "clamp(2.5rem, 6vw, 3.5rem)",
+          fontWeight: 700,
+          color: "var(--text)",
+          textAlign: "center",
+          margin: 0,
+        }}
+      >
+        All around retro vibes
+      </h1>
       <div
         style={{
           display: "flex",
@@ -73,13 +84,15 @@ export default function HomePage() {
       </div>
       <p
         style={{
-          fontSize: "1.25rem",
-          color: "#333",
+          fontSize: "1.125rem",
+          color: "var(--text-muted)",
           textAlign: "center",
-          maxWidth: "28ch",
+          maxWidth: "42ch",
+          lineHeight: 1.5,
+          margin: 0,
         }}
       >
-        A customizable flip clock countdown for React.
+        A customizable flip clock countdown component for React.
       </p>
       <div
         style={{
@@ -89,32 +102,11 @@ export default function HomePage() {
           justifyContent: "center",
         }}
       >
-        <Link
-          href="/demo"
-          style={{
-            padding: "0.75rem 1.5rem",
-            backgroundColor: "#1a1a1a",
-            color: "#fff",
-            borderRadius: "0.5rem",
-            textDecoration: "none",
-            fontWeight: 600,
-          }}
-        >
-          View demo
+        <Link href="/demo" className="cta-primary">
+          View Demo
         </Link>
-        <Link
-          href="/docs"
-          style={{
-            padding: "0.75rem 1.5rem",
-            backgroundColor: "transparent",
-            color: "#1a1a1a",
-            border: "2px solid #1a1a1a",
-            borderRadius: "0.5rem",
-            textDecoration: "none",
-            fontWeight: 600,
-          }}
-        >
-          Read docs
+        <Link href="/docs" className="cta-outline">
+          Read Docs
         </Link>
       </div>
     </main>

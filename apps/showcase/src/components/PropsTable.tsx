@@ -25,8 +25,9 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
               style={{
                 textAlign: "left",
                 padding: "0.5rem 0.75rem",
-                borderBottom: "2px solid #e5e5e5",
+                borderBottom: "2px solid var(--border)",
                 fontWeight: 600,
+                color: "var(--text)",
               }}
             >
               Prop
@@ -35,8 +36,9 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
               style={{
                 textAlign: "left",
                 padding: "0.5rem 0.75rem",
-                borderBottom: "2px solid #e5e5e5",
+                borderBottom: "2px solid var(--border)",
                 fontWeight: 600,
+                color: "var(--text)",
               }}
             >
               Type
@@ -45,8 +47,9 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
               style={{
                 textAlign: "left",
                 padding: "0.5rem 0.75rem",
-                borderBottom: "2px solid #e5e5e5",
+                borderBottom: "2px solid var(--border)",
                 fontWeight: 600,
+                color: "var(--text)",
               }}
             >
               Default
@@ -55,8 +58,9 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
               style={{
                 textAlign: "left",
                 padding: "0.5rem 0.75rem",
-                borderBottom: "2px solid #e5e5e5",
+                borderBottom: "2px solid var(--border)",
                 fontWeight: 600,
+                color: "var(--text)",
               }}
             >
               Description
@@ -69,9 +73,10 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
               <td
                 style={{
                   padding: "0.5rem 0.75rem",
-                  borderBottom: "1px solid #eee",
+                  borderBottom: "1px solid var(--border)",
                   fontFamily: "monospace",
                   fontWeight: 500,
+                  color: "var(--text)",
                 }}
               >
                 {row.name}
@@ -79,9 +84,10 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
               <td
                 style={{
                   padding: "0.5rem 0.75rem",
-                  borderBottom: "1px solid #eee",
+                  borderBottom: "1px solid var(--border)",
                   fontFamily: "monospace",
                   fontSize: "0.8125rem",
+                  color: "var(--text)",
                 }}
               >
                 {row.type}
@@ -89,10 +95,10 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
               <td
                 style={{
                   padding: "0.5rem 0.75rem",
-                  borderBottom: "1px solid #eee",
+                  borderBottom: "1px solid var(--border)",
                   fontFamily: "monospace",
                   fontSize: "0.8125rem",
-                  color: "#666",
+                  color: "var(--text-muted)",
                 }}
               >
                 {row.default}
@@ -100,8 +106,8 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
               <td
                 style={{
                   padding: "0.5rem 0.75rem",
-                  borderBottom: "1px solid #eee",
-                  color: "#444",
+                  borderBottom: "1px solid var(--border)",
+                  color: "var(--text)",
                 }}
               >
                 {row.description}

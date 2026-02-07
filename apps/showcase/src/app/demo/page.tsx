@@ -107,22 +107,6 @@ export default function DemoPage() {
 
   return (
     <main style={{ width: "100%" }}>
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "0 auto",
-          padding: !mounted ? "1.5rem" : isNarrow ? "1rem" : "1.5rem",
-        }}
-      >
-        <h1 style={{ fontSize: "1.5rem", fontWeight: 700, marginBottom: "0.5rem" }}>
-          Demo
-        </h1>
-        <p style={{ color: "#666", marginBottom: "1.5rem", fontSize: "0.9375rem" }}>
-          FlipClock is a countdown component (days, hours, minutes, seconds). Tweak
-          the controls and copy the code below.
-        </p>
-      </div>
-
       {/* Full-width clock section */}
       <div
         style={{
@@ -164,8 +148,8 @@ export default function DemoPage() {
           width: "100%",
           padding: "1rem 1.5rem",
           background: "#fafafa",
-          borderTop: "1px solid #eee",
-          borderBottom: "1px solid #eee",
+          borderTop: "1px solid var(--border)",
+          borderBottom: "1px solid var(--border)",
         }}
       >
         <div
@@ -210,7 +194,7 @@ export default function DemoPage() {
               type="color"
               value={digitColor}
               onChange={(e) => setDigitColor(e.target.value)}
-              style={{ width: "32px", height: "32px", padding: 0, border: "1px solid #ccc", borderRadius: "4px" }}
+              style={{ width: "32px", height: "32px", padding: 0, border: "1px solid var(--border)", borderRadius: "4px" }}
             />
             <span style={{ fontSize: "0.8125rem" }}>{digitColor}</span>
           </div>
@@ -223,7 +207,7 @@ export default function DemoPage() {
               type="color"
               value={cardColor}
               onChange={(e) => setCardColor(e.target.value)}
-              style={{ width: "32px", height: "32px", padding: 0, border: "1px solid #ccc", borderRadius: "4px" }}
+              style={{ width: "32px", height: "32px", padding: 0, border: "1px solid var(--border)", borderRadius: "4px" }}
             />
             <span style={{ fontSize: "0.8125rem" }}>{cardColor}</span>
           </div>
@@ -277,13 +261,20 @@ export default function DemoPage() {
           padding: "0 1.5rem",
         }}
       >
-        <h2 style={{ fontSize: "1rem", fontWeight: 600, marginBottom: "0.5rem" }}>
+        <h2
+          style={{
+            fontSize: "1rem",
+            fontWeight: 600,
+            marginBottom: "0.5rem",
+            color: "var(--text)",
+          }}
+        >
           Code
         </h2>
         <pre
           style={{
-            background: "#1a1a1a",
-            color: "#e5e5e5",
+            background: "var(--code-bg)",
+            color: "var(--code-text)",
             padding: "1rem",
             borderRadius: "0.5rem",
             overflow: "auto",

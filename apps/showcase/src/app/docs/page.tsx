@@ -120,61 +120,177 @@ const flipClockProps = [
   },
 ];
 
+const codeBlockStyle = {
+  background: "var(--code-bg)",
+  color: "var(--code-text)",
+  padding: "1rem",
+  borderRadius: "0.5rem",
+  overflow: "auto" as const,
+  fontSize: "0.875rem",
+};
+
+const sidebarLinks = [
+  { href: "#installation", label: "A. Installation" },
+  { href: "#basic-usage", label: "B. Basic Usage" },
+  { href: "#props", label: "C. Props" },
+];
+
 export default function DocsPage() {
   const isNarrow = useMediaQuery(NARROW_MEDIA_QUERY);
+  const showSidebarColumn = useMediaQuery("(min-width: 1024px)");
+
   return (
-    <main style={{ padding: isNarrow ? "1rem" : "1.5rem", maxWidth: "800px", margin: "0 auto" }}>
-      <h1 style={{ fontSize: "1.75rem", fontWeight: 700, marginBottom: "1rem" }}>
-        Docs
-      </h1>
-
-      <section style={{ marginBottom: "2rem" }}>
-        <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "0.5rem" }}>
-          A. Installation
-        </h2>
-        <pre
+    <main
+      style={{
+        display: "flex",
+        flexDirection: showSidebarColumn ? "row" : "column",
+        minHeight: "100vh",
+        maxWidth: "1200px",
+        margin: "0 auto",
+      }}
+    >
+      <aside
+        style={{
+          flexShrink: 0,
+          width: showSidebarColumn ? "200px" : "100%",
+          padding: isNarrow ? "1rem 1rem 0" : "1.5rem 1.5rem 0",
+          borderRight: showSidebarColumn ? "1px solid var(--border)" : "none",
+          borderBottom: showSidebarColumn ? "none" : "1px solid var(--border)",
+          paddingBottom: showSidebarColumn ? "1.5rem" : "1rem",
+        }}
+      >
+        <div
           style={{
-            background: "#f5f5f5",
-            padding: "1rem",
-            borderRadius: "0.5rem",
-            overflow: "auto",
-            fontSize: "0.875rem",
-            border: "1px solid #eee",
+            fontSize: "0.6875rem",
+            fontWeight: 600,
+            letterSpacing: "0.05em",
+            color: "var(--text-muted)",
+            textTransform: "uppercase",
+            marginBottom: "0.75rem",
           }}
         >
-          <code>npm install flip-clock</code>
-        </pre>
-      </section>
+          CORE CONCEPTS
+        </div>
+        <nav style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+          {sidebarLinks.map(({ href, label }) => (
+            <a
+              key={href}
+              href={href}
+              style={{
+                color: "var(--text)",
+                textDecoration: "none",
+                fontSize: "0.9375rem",
+              }}
+            >
+              {label}
+            </a>
+          ))}
+        </nav>
+      </aside>
 
-      <section style={{ marginBottom: "2rem" }}>
-        <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "0.5rem" }}>
-          B. Basic usage
-        </h2>
-        <pre
+      <div
+        style={{
+          flex: 1,
+          padding: isNarrow ? "1rem" : "1.5rem 2rem 2rem",
+          maxWidth: "800px",
+        }}
+      >
+        <h1
           style={{
-            background: "#f5f5f5",
-            padding: "1rem",
-            borderRadius: "0.5rem",
-            overflow: "auto",
-            fontSize: "0.875rem",
-            border: "1px solid #eee",
+            fontSize: "1.75rem",
+            fontWeight: 700,
+            color: "var(--text)",
+            marginBottom: "0.5rem",
           }}
         >
-          <code>{`import FlipClock from "flip-clock";
+          Documentation
+        </h1>
+        <p
+          style={{
+            color: "var(--text-muted)",
+            fontSize: "1rem",
+            marginBottom: "2rem",
+          }}
+        >
+          Integrate FlipClock into your React application in minutes.
+        </p>
+
+        <section id="installation" style={{ marginBottom: "2rem" }}>
+          <h2
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+              color: "var(--text)",
+            }}
+          >
+            A. Installation
+          </h2>
+          <p
+            style={{
+              color: "var(--text-muted)",
+              fontSize: "0.9375rem",
+              marginBottom: "0.75rem",
+            }}
+          >
+            Install the package and its peer dependencies.
+          </p>
+          <pre style={codeBlockStyle}>
+            <code>npm install flip-clock</code>
+          </pre>
+        </section>
+
+        <section id="basic-usage" style={{ marginBottom: "2rem" }}>
+          <h2
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+              color: "var(--text)",
+            }}
+          >
+            B. Basic usage
+          </h2>
+          <p
+            style={{
+              color: "var(--text-muted)",
+              fontSize: "0.9375rem",
+              marginBottom: "0.75rem",
+            }}
+          >
+            Import and initialize with a target date.
+          </p>
+          <pre style={codeBlockStyle}>
+            <code>{`import FlipClock from "flip-clock";
 
 <FlipClock targetDate={new Date("2026-12-31T00:00:00")} />`}</code>
-        </pre>
-        <p style={{ color: "#666", fontSize: "0.875rem", marginTop: "0.5rem" }}>
-          In Next.js, use FlipClock inside a Client Component (<code>&quot;use client&quot;</code>).
-        </p>
-      </section>
+          </pre>
+          <p
+            style={{
+              color: "var(--text-muted)",
+              fontSize: "0.875rem",
+              marginTop: "0.5rem",
+            }}
+          >
+            In Next.js, use FlipClock inside a Client Component (
+            <code>&quot;use client&quot;</code>).
+          </p>
+        </section>
 
-      <section style={{ marginBottom: "2rem" }}>
-        <h2 style={{ fontSize: "1.25rem", fontWeight: 600, marginBottom: "0.5rem" }}>
-          C. Props
-        </h2>
-        <PropsTable props={flipClockProps} />
-      </section>
+        <section id="props" style={{ marginBottom: "2rem" }}>
+          <h2
+            style={{
+              fontSize: "1.25rem",
+              fontWeight: 600,
+              marginBottom: "0.5rem",
+              color: "var(--text)",
+            }}
+          >
+            C. Props
+          </h2>
+          <PropsTable props={flipClockProps} />
+        </section>
+      </div>
     </main>
   );
 }
