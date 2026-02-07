@@ -190,6 +190,20 @@ export interface FlipClockProps {
   /** Callback fired when countdown reaches zero. */
   onComplete?: () => void;
 
+  /**
+   * Layout direction: "row" (horizontal) or "column" (stacked).
+   * Set from the parent (e.g. via media queries) for optimal view per screen size.
+   * @default "row"
+   */
+  orientation?: "row" | "column";
+
+  /**
+   * Scale factor for the whole clock (cards, digits, gaps). Use for coarse size control from outside.
+   * Applied on top of cardStyle / digitStyle. Example: scale={0.8} gives 80% size.
+   * @default 1
+   */
+  scale?: number;
+
   /** Additional className for the outer wrapper. */
   className?: string;
 
@@ -244,6 +258,16 @@ const DEFAULT_SEPARATOR: Required<FlipSeparatorConfig> = {
   color: "#999999",
   size: "0.5rem",
 };
+
+/** Multiply a CSS length (e.g. "7rem", "0.375rem") by a factor. Non-length values returned as-is. */
+function scaleCssLength(value: string, factor: number): string {
+  if (factor === 1) return value;
+  const match = value.trim().match(/^(-?\d*\.?\d+)(r?em|px)$/);
+  if (!match) return value;
+  const num = Number(match[1]);
+  const unit = match[2];
+  return `${num * factor}${unit}`;
+}
 
 /* ──────────────────────────────────────────────
  * Utility: generate unique animation keyframes
@@ -520,6 +544,7 @@ const FlipClockGroupUnit = ({
         flexDirection: "column",
         alignItems: "center",
         gap: labelGap,
+        flexShrink: 0,
       }}
     >
       <div style={{ display: "flex", gap: cardGap }}>
@@ -582,7 +607,7 @@ const SeparatorUnit = ({ config, cardHeight }: SeparatorProps) => {
         alignItems: "center",
         justifyContent: "center",
         height: cardHeight,
-        paddingBottom: "1.5rem",
+        flexShrink: 0,
       }}
     >
       {config.type === "colon" && (
@@ -644,16 +669,56 @@ const FlipClock = ({
   cardGap = "0.375rem",
   labelGap = "1rem",
   onComplete,
+  orientation = "row",
+  scale: scaleProp = 1,
   className,
   style,
 }: FlipClockProps) => {
   /* Merge props with defaults */
-  const card = useMemo(() => ({ ...DEFAULT_CARD, ...cardStyle }), [cardStyle]);
-  const digit = useMemo(() => ({ ...DEFAULT_DIGIT, ...digitStyle }), [digitStyle]);
-  const label = useMemo(() => ({ ...DEFAULT_LABEL, ...labelStyle }), [labelStyle]);
-  const line = useMemo(() => ({ ...DEFAULT_LINE, ...lineStyle }), [lineStyle]);
+  const cardBase = useMemo(() => ({ ...DEFAULT_CARD, ...cardStyle }), [cardStyle]);
+  const digitBase = useMemo(() => ({ ...DEFAULT_DIGIT, ...digitStyle }), [digitStyle]);
+  const labelBase = useMemo(() => ({ ...DEFAULT_LABEL, ...labelStyle }), [labelStyle]);
+  const lineBase = useMemo(() => ({ ...DEFAULT_LINE, ...lineStyle }), [lineStyle]);
   const anim = useMemo(() => ({ ...DEFAULT_ANIMATION, ...animation }), [animation]);
-  const sep = useMemo(() => ({ ...DEFAULT_SEPARATOR, ...separator }), [separator]);
+  const sepBase = useMemo(() => ({ ...DEFAULT_SEPARATOR, ...separator }), [separator]);
+
+  /* Apply scale factor to size-related values (cards, digits, gaps, separator, label/line) */
+  const scale = Math.max(0.1, Math.min(10, scaleProp));
+  const card = useMemo(
+    () =>
+      scale === 1
+        ? cardBase
+        : {
+            ...cardBase,
+            width: scaleCssLength(cardBase.width, scale),
+            height: scaleCssLength(cardBase.height, scale),
+            borderRadius: scaleCssLength(cardBase.borderRadius, scale),
+          },
+    [cardBase, scale]
+  );
+  const digit = useMemo(
+    () =>
+      scale === 1 ? digitBase : { ...digitBase, fontSize: scaleCssLength(digitBase.fontSize, scale) },
+    [digitBase, scale]
+  );
+  const label = useMemo(
+    () =>
+      scale === 1 ? labelBase : { ...labelBase, fontSize: scaleCssLength(labelBase.fontSize, scale) },
+    [labelBase, scale]
+  );
+  const line = useMemo(
+    () =>
+      scale === 1 ? lineBase : { ...lineBase, height: scaleCssLength(lineBase.height, scale) },
+    [lineBase, scale]
+  );
+  const sep = useMemo(
+    () =>
+      scale === 1 ? sepBase : { ...sepBase, size: scaleCssLength(sepBase.size, scale) },
+    [sepBase, scale]
+  );
+  const groupGapScaled = scale === 1 ? groupGap : scaleCssLength(groupGap, scale);
+  const cardGapScaled = scale === 1 ? cardGap : scaleCssLength(cardGap, scale);
+  const labelGapScaled = scale === 1 ? labelGap : scaleCssLength(labelGap, scale);
 
   const resolvedLabels = useMemo(
     () => ({
@@ -752,7 +817,6 @@ const FlipClock = ({
   if (resolvedSegments.seconds)
     segmentEntries.push({ value: timeLeft.seconds, label: resolvedLabels.seconds, digits: 2 });
 
-  /* Render */
   const items: ReactNode[] = [];
   segmentEntries.forEach((seg, i) => {
     if (i > 0) {
@@ -772,8 +836,8 @@ const FlipClock = ({
         line={line}
         animation={anim}
         animId={animId}
-        cardGap={cardGap}
-        labelGap={labelGap}
+        cardGap={cardGapScaled}
+        labelGap={labelGapScaled}
       />
     );
   });
@@ -783,10 +847,11 @@ const FlipClock = ({
       className={className}
       style={{
         display: "flex",
+        flexDirection: orientation === "column" ? "column" : "row",
+        flexWrap: "nowrap",
         alignItems: "center",
-        gap: groupGap,
-        flexWrap: "wrap",
         justifyContent: "center",
+        gap: groupGapScaled,
         ...style,
       }}
     >

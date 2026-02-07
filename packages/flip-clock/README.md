@@ -1,6 +1,10 @@
 # flip-clock
 
-A fully self-contained, customizable flip clock countdown React component with realistic 3D flip-card animations.
+A customizable flip clock countdown for React with realistic 3D flip-card animations.
+
+**Live demo and docs:** [Showcase site](https://your-showcase-url.com) — [Demo](https://your-showcase-url.com/demo) · [Docs](https://your-showcase-url.com/docs) · [Examples](https://your-showcase-url.com/examples).
+
+![FlipClock demo](./screenshot.png)
 
 ## Install
 
@@ -12,42 +16,33 @@ pnpm add flip-clock
 yarn add flip-clock
 ```
 
-## Usage
+## Basic usage
 
 ```tsx
 import FlipClock from "flip-clock";
 
-// Basic: countdown to a date (defaults to ~88 days from now if omitted)
 <FlipClock targetDate={new Date("2026-12-31T00:00:00")} />
-
-// Custom style
-<FlipClock
-  targetDate={new Date("2027-01-01")}
-  cardStyle={{ background: "#1e1e2e", backgroundDark: "#181825" }}
-  digitStyle={{ color: "#cba6f7", fontSize: "4rem" }}
-  labelStyle={{ color: "#a6adc8" }}
-  animation={{ bounceIntensity: 12, flipDuration: 400 }}
-  separator={{ type: "colon", color: "#cba6f7" }}
-  onComplete={() => console.log("Done!")}
-/>
 ```
 
-All props are optional. See the TypeScript types (`FlipClockProps`, `FlipCardStyle`, `FlipDigitStyle`, `FlipLabelStyle`, `FlipAnimationConfig`, etc.) for full customization.
+In Next.js, use it inside a Client Component (`"use client"`).
 
-**Recommended fonts:** The default digit font is `'Bebas Neue'` and the default label font is `'Inter'`. Load these in your app (e.g. via Google Fonts or `next/font`) for the intended look, or override with `digitStyle.fontFamily` and `labelStyle.fontFamily`.
+## Props overview
 
-### Next.js
+| Prop | Description |
+|------|-------------|
+| `targetDate` | Target date to count down to (default: ~88 days from now) |
+| `staticTime` | Override with static values `{ days?, hours?, minutes?, seconds? }` |
+| `cardStyle` | Card appearance (background, width, height, borderRadius, etc.) |
+| `digitStyle` | Digit typography (color, fontFamily, fontSize) |
+| `labelStyle` | Labels (visible, color, fontFamily, fontSize) |
+| `animation` | Flip animation (flipDuration, bounceIntensity, easing) |
+| `separator` | Between groups: `{ type: "none" \| "colon" \| "dot" }` |
+| `segments` | Which to show: `{ days?, hours?, minutes?, seconds? }` |
+| `groupGap`, `cardGap`, `labelGap` | Spacing (CSS values) |
+| `onComplete` | Callback when countdown reaches zero |
+| `className`, `style` | Wrapper extras |
 
-FlipClock uses the DOM and React hooks. Use it inside a **Client Component**:
-
-```tsx
-"use client";
-import FlipClock from "flip-clock";
-
-export default function Page() {
-  return <FlipClock targetDate={new Date("2027-01-01")} />;
-}
-```
+Full props table and types: see the [docs page](https://your-showcase-url.com/docs) on the showcase site.
 
 ## License
 
