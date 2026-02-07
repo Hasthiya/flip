@@ -1,6 +1,7 @@
 {
   "name": "flip-monorepo",
   "private": true,
+  "packageManager": "pnpm@9.15.0",
   "scripts": {
     "build": "pnpm -r run build",
     "build:lib": "pnpm --filter @hasthiya_/flip-clock build",
