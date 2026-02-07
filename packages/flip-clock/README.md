@@ -1,4 +1,4 @@
-# flip-clock
+# @hasthiya_/flip-clock
 
 A customizable flip clock countdown for React with realistic 3D flip-card animations.
 
@@ -9,17 +9,17 @@ A customizable flip clock countdown for React with realistic 3D flip-card animat
 ## Install
 
 ```bash
-npm install flip-clock
+npm install @hasthiya_/flip-clock
 # or
-pnpm add flip-clock
+pnpm add @hasthiya_/flip-clock
 # or
-yarn add flip-clock
+yarn add @hasthiya_/flip-clock
 ```
 
 ## Basic usage
 
 ```tsx
-import FlipClock from "flip-clock";
+import FlipClock from "@hasthiya_/flip-clock";
 
 <FlipClock targetDate={new Date("2026-12-31T00:00:00")} />
 ```

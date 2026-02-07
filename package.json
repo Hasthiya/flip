@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "pnpm -r run build",
-    "build:lib": "pnpm --filter flip-clock build",
+    "build:lib": "pnpm --filter @hasthiya_/flip-clock build",
     "dev:showcase": "pnpm --filter showcase dev"
   }
 }

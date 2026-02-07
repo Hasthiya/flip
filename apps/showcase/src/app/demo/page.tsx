@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import FlipClock from "flip-clock";
+import FlipClock from "@hasthiya_/flip-clock";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type TargetPreset = "newYear" | "thirtyDays" | "custom";

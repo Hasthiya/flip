@@ -10,7 +10,7 @@ importers:
 
   apps/showcase:
     dependencies:
-      flip-clock:
+      '@hasthiya_/flip-clock':
         specifier: workspace:*
         version: link:../../packages/flip-clock
       next:

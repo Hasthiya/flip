@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import FlipClock from "flip-clock";
+import FlipClock from "@hasthiya_/flip-clock";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function HomePage() {

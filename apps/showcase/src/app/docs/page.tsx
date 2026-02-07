@@ -236,7 +236,7 @@ export default function DocsPage() {
             Install the package and its peer dependencies.
           </p>
           <pre style={codeBlockStyle}>
-            <code>npm install flip-clock</code>
+            <code>npm install @hasthiya_/flip-clock</code>
           </pre>
         </section>
 
@@ -261,7 +261,7 @@ export default function DocsPage() {
             Import and initialize with a target date.
           </p>
           <pre style={codeBlockStyle}>
-            <code>{`import FlipClock from "flip-clock";
+            <code>{`import FlipClock from "@hasthiya_/flip-clock";
 
 <FlipClock targetDate={new Date("2026-12-31T00:00:00")} />`}</code>
           </pre>

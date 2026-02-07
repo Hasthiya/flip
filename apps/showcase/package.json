@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "flip-clock": "workspace:*",
+    "@hasthiya_/flip-clock": "workspace:*",
     "next": "^15.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
