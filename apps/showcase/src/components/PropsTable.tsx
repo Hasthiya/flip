@@ -24,9 +24,13 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
             <th
               style={{
                 textAlign: "left",
-                padding: "0.5rem 0.75rem",
-                borderBottom: "2px solid var(--border)",
+                padding: "0.75rem",
+                borderBottom: "2px solid var(--text)",
+                fontFamily: "var(--font-space-mono), monospace",
                 fontWeight: 600,
+                fontSize: "0.75rem",
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
                 color: "var(--text)",
               }}
             >
@@ -35,9 +39,13 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
             <th
               style={{
                 textAlign: "left",
-                padding: "0.5rem 0.75rem",
-                borderBottom: "2px solid var(--border)",
+                padding: "0.75rem",
+                borderBottom: "2px solid var(--text)",
+                fontFamily: "var(--font-space-mono), monospace",
                 fontWeight: 600,
+                fontSize: "0.75rem",
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
                 color: "var(--text)",
               }}
             >
@@ -46,9 +54,13 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
             <th
               style={{
                 textAlign: "left",
-                padding: "0.5rem 0.75rem",
-                borderBottom: "2px solid var(--border)",
+                padding: "0.75rem",
+                borderBottom: "2px solid var(--text)",
+                fontFamily: "var(--font-space-mono), monospace",
                 fontWeight: 600,
+                fontSize: "0.75rem",
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
                 color: "var(--text)",
               }}
             >
@@ -57,9 +69,13 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
             <th
               style={{
                 textAlign: "left",
-                padding: "0.5rem 0.75rem",
-                borderBottom: "2px solid var(--border)",
+                padding: "0.75rem",
+                borderBottom: "2px solid var(--text)",
+                fontFamily: "var(--font-space-mono), monospace",
                 fontWeight: 600,
+                fontSize: "0.75rem",
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
                 color: "var(--text)",
               }}
             >
@@ -72,31 +88,32 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
             <tr key={row.name}>
               <td
                 style={{
-                  padding: "0.5rem 0.75rem",
+                  padding: "0.75rem",
                   borderBottom: "1px solid var(--border)",
-                  fontFamily: "monospace",
+                  fontFamily: "var(--font-space-mono), monospace",
                   fontWeight: 500,
                   color: "var(--text)",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {row.name}
               </td>
               <td
                 style={{
-                  padding: "0.5rem 0.75rem",
+                  padding: "0.75rem",
                   borderBottom: "1px solid var(--border)",
-                  fontFamily: "monospace",
+                  fontFamily: "var(--font-space-mono), monospace",
                   fontSize: "0.8125rem",
-                  color: "var(--text)",
+                  color: "var(--text-muted)",
                 }}
               >
                 {row.type}
               </td>
               <td
                 style={{
-                  padding: "0.5rem 0.75rem",
+                  padding: "0.75rem",
                   borderBottom: "1px solid var(--border)",
-                  fontFamily: "monospace",
+                  fontFamily: "var(--font-space-mono), monospace",
                   fontSize: "0.8125rem",
                   color: "var(--text-muted)",
                 }}
@@ -105,9 +122,10 @@ export default function PropsTable({ props: rows }: PropsTableProps) {
               </td>
               <td
                 style={{
-                  padding: "0.5rem 0.75rem",
+                  padding: "0.75rem",
                   borderBottom: "1px solid var(--border)",
-                  color: "var(--text)",
+                  color: "var(--text-muted)",
+                  lineHeight: 1.4,
                 }}
               >
                 {row.description}

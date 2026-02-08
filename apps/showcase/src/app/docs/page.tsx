@@ -98,13 +98,13 @@ const flipClockProps = [
     name: "orientation",
     type: "'row' | 'column'",
     default: "'row'",
-    description: "Layout direction: row (horizontal) or column (stacked). Set from the parent (e.g. via media queries) for optimal view per screen size.",
+    description: "Layout direction: row (horizontal) or column (stacked).",
   },
   {
     name: "scale",
     type: "number",
     default: "1",
-    description: "Scale factor for the whole clock (cards, digits, gaps). Use for coarse size control from outside; applied on top of cardStyle/digitStyle. Example: scale={0.8} for 80% size. Clamped to 0.1–10.",
+    description: "Scale factor for the whole clock. Example: scale={0.8} for 80% size.",
   },
   {
     name: "className",
@@ -123,16 +123,17 @@ const flipClockProps = [
 const codeBlockStyle = {
   background: "var(--code-bg)",
   color: "var(--code-text)",
-  padding: "1rem",
-  borderRadius: "0.5rem",
+  padding: "1.25rem",
+  borderRadius: "0.75rem",
   overflow: "auto" as const,
   fontSize: "0.875rem",
+  lineHeight: 1.6,
 };
 
 const sidebarLinks = [
-  { href: "#installation", label: "A. Installation" },
-  { href: "#basic-usage", label: "B. Basic Usage" },
-  { href: "#props", label: "C. Props" },
+  { href: "#installation", label: "Installation" },
+  { href: "#basic-usage", label: "Basic Usage" },
+  { href: "#props", label: "Props Reference" },
 ];
 
 export default function DocsPage() {
@@ -145,41 +146,43 @@ export default function DocsPage() {
         display: "flex",
         flexDirection: showSidebarColumn ? "row" : "column",
         minHeight: "100vh",
-        maxWidth: "1200px",
+        maxWidth: "1100px",
         margin: "0 auto",
       }}
     >
+      {/* Sidebar */}
       <aside
         style={{
           flexShrink: 0,
-          width: showSidebarColumn ? "200px" : "100%",
-          padding: isNarrow ? "1rem 1rem 0" : "1.5rem 1.5rem 0",
+          width: showSidebarColumn ? "220px" : "100%",
+          padding: isNarrow ? "1.5rem 1rem" : "2rem 1.5rem",
           borderRight: showSidebarColumn ? "1px solid var(--border)" : "none",
           borderBottom: showSidebarColumn ? "none" : "1px solid var(--border)",
-          paddingBottom: showSidebarColumn ? "1.5rem" : "1rem",
         }}
       >
         <div
           style={{
+            fontFamily: "var(--font-space-mono), monospace",
             fontSize: "0.6875rem",
             fontWeight: 600,
-            letterSpacing: "0.05em",
+            letterSpacing: "0.1em",
             color: "var(--text-muted)",
             textTransform: "uppercase",
-            marginBottom: "0.75rem",
+            marginBottom: "1rem",
           }}
         >
-          CORE CONCEPTS
+          Contents
         </div>
-        <nav style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+        <nav style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
           {sidebarLinks.map(({ href, label }) => (
             <a
               key={href}
               href={href}
               style={{
+                fontFamily: "var(--font-space-mono), monospace",
                 color: "var(--text)",
                 textDecoration: "none",
-                fontSize: "0.9375rem",
+                fontSize: "0.875rem",
               }}
             >
               {label}
@@ -188,16 +191,19 @@ export default function DocsPage() {
         </nav>
       </aside>
 
+      {/* Main content */}
       <div
         style={{
           flex: 1,
-          padding: isNarrow ? "1rem" : "1.5rem 2rem 2rem",
+          padding: isNarrow ? "1.5rem 1rem 3rem" : "2rem 2.5rem 3rem",
           maxWidth: "800px",
         }}
       >
+        {/* Header */}
         <h1
           style={{
-            fontSize: "1.75rem",
+            fontFamily: "var(--font-space-mono), monospace",
+            fontSize: "clamp(1.5rem, 4vw, 2rem)",
             fontWeight: 700,
             color: "var(--text)",
             marginBottom: "0.5rem",
@@ -209,56 +215,63 @@ export default function DocsPage() {
           style={{
             color: "var(--text-muted)",
             fontSize: "1rem",
-            marginBottom: "2rem",
+            marginBottom: "3rem",
+            lineHeight: 1.5,
           }}
         >
           Integrate FlipClock into your React application in minutes.
         </p>
 
-        <section id="installation" style={{ marginBottom: "2rem" }}>
+        {/* Installation */}
+        <section id="installation" style={{ marginBottom: "3rem" }}>
           <h2
             style={{
+              fontFamily: "var(--font-space-mono), monospace",
               fontSize: "1.25rem",
               fontWeight: 600,
-              marginBottom: "0.5rem",
+              marginBottom: "1rem",
               color: "var(--text)",
             }}
           >
-            A. Installation
+            Installation
           </h2>
           <p
             style={{
               color: "var(--text-muted)",
               fontSize: "0.9375rem",
-              marginBottom: "0.75rem",
+              marginBottom: "1rem",
+              lineHeight: 1.5,
             }}
           >
-            Install the package and its peer dependencies.
+            Install the package using npm, yarn, or pnpm.
           </p>
           <pre style={codeBlockStyle}>
             <code>npm install @hasthiya_/flip-clock</code>
           </pre>
         </section>
 
-        <section id="basic-usage" style={{ marginBottom: "2rem" }}>
+        {/* Basic Usage */}
+        <section id="basic-usage" style={{ marginBottom: "3rem" }}>
           <h2
             style={{
+              fontFamily: "var(--font-space-mono), monospace",
               fontSize: "1.25rem",
               fontWeight: 600,
-              marginBottom: "0.5rem",
+              marginBottom: "1rem",
               color: "var(--text)",
             }}
           >
-            B. Basic usage
+            Basic Usage
           </h2>
           <p
             style={{
               color: "var(--text-muted)",
               fontSize: "0.9375rem",
-              marginBottom: "0.75rem",
+              marginBottom: "1rem",
+              lineHeight: 1.5,
             }}
           >
-            Import and initialize with a target date.
+            Import the component and pass a target date.
           </p>
           <pre style={codeBlockStyle}>
             <code>{`import FlipClock from "@hasthiya_/flip-clock";
@@ -269,24 +282,38 @@ export default function DocsPage() {
             style={{
               color: "var(--text-muted)",
               fontSize: "0.875rem",
-              marginTop: "0.5rem",
+              marginTop: "1rem",
+              lineHeight: 1.5,
             }}
           >
-            In Next.js, use FlipClock inside a Client Component (
-            <code>&quot;use client&quot;</code>).
+            <strong style={{ color: "var(--text)" }}>Note:</strong> In Next.js, use FlipClock inside a Client Component (
+            <code
+              style={{
+                fontFamily: "var(--font-space-mono), monospace",
+                background: "var(--border)",
+                padding: "0.15rem 0.4rem",
+                borderRadius: "0.25rem",
+                fontSize: "0.8125rem",
+              }}
+            >
+              &quot;use client&quot;
+            </code>
+            ).
           </p>
         </section>
 
+        {/* Props Reference */}
         <section id="props" style={{ marginBottom: "2rem" }}>
           <h2
             style={{
+              fontFamily: "var(--font-space-mono), monospace",
               fontSize: "1.25rem",
               fontWeight: 600,
-              marginBottom: "0.5rem",
+              marginBottom: "1rem",
               color: "var(--text)",
             }}
           >
-            C. Props
+            Props Reference
           </h2>
           <PropsTable props={flipClockProps} />
         </section>
