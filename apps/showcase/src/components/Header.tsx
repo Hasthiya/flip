@@ -16,37 +16,13 @@ export default function Header() {
       <Link
         href="/"
         style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
           textDecoration: "none",
           color: "var(--text)",
         }}
       >
-        <div
-          style={{
-            width: "28px",
-            height: "28px",
-            backgroundColor: "#1a1a1a",
-            borderRadius: "4px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <span
-            style={{
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: "1rem",
-              fontFamily: "var(--font-inter), system-ui, sans-serif",
-            }}
-          >
-            F
-          </span>
-        </div>
         <span
           style={{
+            fontFamily: "var(--font-space-mono), monospace",
             fontWeight: 700,
             fontSize: "1.125rem",
           }}
@@ -54,13 +30,14 @@ export default function Header() {
           FlipClock
         </span>
       </Link>
-      <nav style={{ display: "flex", gap: "1rem" }}>
+      <nav style={{ display: "flex", gap: "1.5rem" }}>
         <Link
           href="/demo"
           style={{
+            fontFamily: "var(--font-space-mono), monospace",
             color: "var(--text-muted)",
             textDecoration: "none",
-            fontSize: "0.9375rem",
+            fontSize: "0.875rem",
           }}
         >
           Demo
@@ -68,9 +45,10 @@ export default function Header() {
         <Link
           href="/docs"
           style={{
+            fontFamily: "var(--font-space-mono), monospace",
             color: "var(--text-muted)",
             textDecoration: "none",
-            fontSize: "0.9375rem",
+            fontSize: "0.875rem",
           }}
         >
           Docs
@@ -78,9 +56,10 @@ export default function Header() {
         <Link
           href="/examples"
           style={{
+            fontFamily: "var(--font-space-mono), monospace",
             color: "var(--text-muted)",
             textDecoration: "none",
-            fontSize: "0.9375rem",
+            fontSize: "0.875rem",
           }}
         >
           Examples

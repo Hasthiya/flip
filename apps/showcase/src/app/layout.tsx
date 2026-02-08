@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Inter } from "next/font/google";
+import { Bebas_Neue, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 
@@ -14,6 +14,12 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+const spaceMono = Space_Mono({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  variable: "--font-space-mono",
+});
+
 export const metadata: Metadata = {
   title: "FlipClock Showcase",
   description: "A customizable flip clock countdown React component",
@@ -25,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${bebasNeue.variable} ${inter.variable}`}>
+    <html lang="en" className={`${bebasNeue.variable} ${inter.variable} ${spaceMono.variable}`}>
       <body>
         <Header />
         {children}

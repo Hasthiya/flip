@@ -13,7 +13,6 @@ export default function HomePage() {
 
   useEffect(() => setMounted(true), []);
 
-  // After mount: use actual breakpoints for layout and clock props.
   const isLarge = minWidth1024;
   const isMedium = minWidth768 && !minWidth1024;
   const isSmall = !minWidth768;
@@ -23,92 +22,246 @@ export default function HomePage() {
     ? { days: false, hours: true, minutes: true, seconds: true }
     : undefined;
 
+  // Base sizes
   const cardStyle = isLarge
     ? { width: "6rem", height: "8rem" }
     : isMedium
       ? { width: "6rem", height: "8rem" }
       : { width: "5rem", height: "7rem" };
-  const digitStyle = isLarge
-    ? { fontSize: "6.5rem" }
-    : isMedium
-      ? { fontSize: "6.5rem" }
-      : { fontSize: "4rem" };
+  const digitFontSize = isLarge ? "6.5rem" : isMedium ? "6.5rem" : "4rem";
+
+  // Black and white clock styling
+  const clockCardStyle = {
+    ...cardStyle,
+    background: "#1a1a1a",
+    backgroundDark: "#0f0f0f",
+    borderRadius: "0.5rem",
+  };
+  const clockDigitStyle = {
+    fontSize: digitFontSize,
+    color: "#ffffff",
+  };
+  const clockLabelStyle = {
+    color: "#888888",
+    fontSize: "0.75rem",
+    fontWeight: "500",
+    letterSpacing: "0.1em",
+  };
 
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: !mounted ? "4rem" : isSmall ? "3rem 1rem" : "4rem 2rem",
-        gap: "2.5rem",
-      }}
-    >
-      <h1
+    <>
+      {/* Hero Section */}
+      <section
         style={{
-          fontSize: "clamp(2.5rem, 6vw, 3.5rem)",
-          fontWeight: 700,
-          color: "var(--text)",
-          textAlign: "center",
-          margin: 0,
-        }}
-      >
-        All around retro vibes
-      </h1>
-      <div
-        style={{
+          minHeight: "85vh",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "1rem",
-          width: "100%",
-        }}
-      >
-        {!mounted ? (
-          <div
-            aria-hidden
-            style={{ minHeight: "10rem", width: "100%", maxWidth: "32rem" }}
-          />
-        ) : (
-          <FlipClock
-            targetDate={newYear}
-            cardStyle={cardStyle}
-            digitStyle={digitStyle}
-            separator={{ type: "none" }}
-            segments={segments}
-            orientation={orientation}
-          />
-        )}
-      </div>
-      <p
-        style={{
-          fontSize: "1.125rem",
-          color: "var(--text-muted)",
-          textAlign: "center",
-          maxWidth: "42ch",
-          lineHeight: 1.5,
-          margin: 0,
-        }}
-      >
-        A customizable flip clock countdown component for React.
-      </p>
-      <div
-        style={{
-          display: "flex",
-          gap: "1rem",
-          flexWrap: "wrap",
           justifyContent: "center",
+          padding: isSmall ? "3rem 1rem" : "4rem 2rem",
+          gap: "2rem",
+          textAlign: "center",
         }}
       >
-        <Link href="/demo" className="cta-primary">
-          View Demo
-        </Link>
-        <Link href="/docs" className="cta-outline">
-          Read Docs
-        </Link>
-      </div>
-    </main>
+        {/* Headline with retro font */}
+        <div className="animate-fade-in">
+          <h1
+            style={{
+              fontFamily: "var(--font-space-mono), monospace",
+              fontSize: "clamp(2rem, 6vw, 3.5rem)",
+              fontWeight: 700,
+              color: "var(--text)",
+              lineHeight: 1.1,
+              margin: 0,
+              letterSpacing: "-0.02em",
+            }}
+          >
+            Flip Clock for React
+          </h1>
+          <p
+            style={{
+              fontSize: "clamp(1rem, 2.5vw, 1.125rem)",
+              color: "var(--text-muted)",
+              maxWidth: "480px",
+              lineHeight: 1.6,
+              margin: "1rem auto 0",
+            }}
+          >
+            A customizable retro{" "}
+            <span style={{ fontFamily: "var(--font-space-mono), monospace", color: "var(--text)", fontWeight: 600 }}>
+              flip clock
+            </span>{" "}
+            countdown{" "}
+            <span style={{ fontFamily: "var(--font-space-mono), monospace", color: "var(--text)", fontWeight: 600 }}>
+              component
+            </span>{" "}
+            with smooth animations.
+          </p>
+        </div>
+
+        {/* FlipClock Demo with B&W styling */}
+        <div
+          className="animate-fade-in-delay-1"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "1.5rem",
+            width: "100%",
+            marginTop: "0.5rem",
+          }}
+        >
+          {!mounted ? (
+            <div
+              aria-hidden
+              style={{ minHeight: "10rem", width: "100%", maxWidth: "32rem" }}
+            />
+          ) : (
+            <FlipClock
+              targetDate={newYear}
+              cardStyle={clockCardStyle}
+              digitStyle={clockDigitStyle}
+              labelStyle={clockLabelStyle}
+              separator={{ type: "none" }}
+              segments={segments}
+              orientation={orientation}
+            />
+          )}
+        </div>
+
+        {/* CTA Buttons */}
+        <div
+          className="animate-fade-in-delay-2"
+          style={{
+            display: "flex",
+            gap: "1rem",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            marginTop: "4rem",
+          }}
+        >
+          <Link href="/demo" className="cta-primary">
+            Try Demo
+          </Link>
+          <Link href="/docs" className="cta-outline">
+            Documentation
+          </Link>
+        </div>
+      </section>
+
+      {/* Quick Start Section */}
+      <section
+        style={{
+          padding: isSmall ? "4rem 1rem" : "5rem 2rem",
+          background: "var(--bg)",
+        }}
+      >
+        <div className="section-container" style={{ maxWidth: "700px" }}>
+          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+            <h2
+              style={{
+                fontFamily: "var(--font-space-mono), monospace",
+                fontSize: "clamp(1.25rem, 3vw, 1.5rem)",
+                fontWeight: 700,
+                color: "var(--text)",
+              }}
+            >
+              Quick Start
+            </h2>
+          </div>
+
+          <div
+            style={{
+              background: "var(--code-bg)",
+              borderRadius: "0.75rem",
+              padding: isSmall ? "1.25rem" : "1.5rem",
+              overflow: "auto",
+            }}
+          >
+            <pre
+              style={{
+                margin: 0,
+                fontSize: isSmall ? "0.8125rem" : "0.875rem",
+                lineHeight: 1.8,
+                color: "var(--code-text)",
+              }}
+            >
+              <code>
+                <span style={{ color: "#888" }}>{"# Install\n"}</span>
+                <span style={{ color: "#fff" }}>npm install</span>
+                {" @hasthiya_/flip-clock\n\n"}
+                <span style={{ color: "#888" }}>{"# Usage\n"}</span>
+                <span style={{ color: "#fff" }}>import</span>
+                {" FlipClock "}
+                <span style={{ color: "#fff" }}>from</span>
+                {' "@hasthiya_/flip-clock";\n\n'}
+                <span style={{ color: "#fff" }}>{"<"}</span>
+                <span style={{ color: "#ccc" }}>FlipClock</span>{" "}
+                <span style={{ color: "#999" }}>targetDate</span>
+                {"={new Date("}
+                <span style={{ color: "#aaa" }}>{'"2026-12-31"'}</span>
+                {")} />"}
+              </code>
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer Section */}
+      <section
+        style={{
+          padding: isSmall ? "3rem 1rem" : "4rem 2rem",
+          background: "var(--bg)",
+          textAlign: "center",
+          borderTop: "1px solid var(--border)",
+        }}
+      >
+        <div className="section-container" style={{ maxWidth: "500px" }}>
+          <div
+            style={{
+              display: "flex",
+              gap: "2rem",
+              justifyContent: "center",
+              flexWrap: "wrap",
+            }}
+          >
+            <Link
+              href="/docs"
+              style={{
+                color: "var(--text-muted)",
+                textDecoration: "none",
+                fontSize: "0.9375rem",
+              }}
+            >
+              Docs
+            </Link>
+            <a
+              href="https://www.npmjs.com/package/@hasthiya_/flip-clock"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "var(--text-muted)",
+                textDecoration: "none",
+                fontSize: "0.9375rem",
+              }}
+            >
+              npm
+            </a>
+            <a
+              href="https://github.com/hasthiya-org/flip-clock"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: "var(--text-muted)",
+                textDecoration: "none",
+                fontSize: "0.9375rem",
+              }}
+            >
+              GitHub
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }
