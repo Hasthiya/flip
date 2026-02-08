@@ -206,62 +206,6 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-
-      {/* Footer Section */}
-      <section
-        style={{
-          padding: isSmall ? "3rem 1rem" : "4rem 2rem",
-          background: "var(--bg)",
-          textAlign: "center",
-          borderTop: "1px solid var(--border)",
-        }}
-      >
-        <div className="section-container" style={{ maxWidth: "500px" }}>
-          <div
-            style={{
-              display: "flex",
-              gap: "2rem",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            <Link
-              href="/docs"
-              style={{
-                color: "var(--text-muted)",
-                textDecoration: "none",
-                fontSize: "0.9375rem",
-              }}
-            >
-              Docs
-            </Link>
-            <a
-              href="https://www.npmjs.com/package/@hasthiya_/flip-clock"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "var(--text-muted)",
-                textDecoration: "none",
-                fontSize: "0.9375rem",
-              }}
-            >
-              npm
-            </a>
-            <a
-              href="https://github.com/hasthiya-org/flip-clock"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: "var(--text-muted)",
-                textDecoration: "none",
-                fontSize: "0.9375rem",
-              }}
-            >
-              GitHub
-            </a>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

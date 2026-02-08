@@ -183,7 +183,7 @@ export default function DemoPage() {
               borderRadius: "0.5rem",
             }}
             digitStyle={{ ...digitStyleBreakpoint, color: digitColor }}
-            labelStyle={{ color: "#888888", fontSize: "0.75rem", fontWeight: "500", letterSpacing: "0.1em" }}
+            labelStyle={{ visible: showLabels, color: "#888888", fontSize: "0.75rem", fontWeight: "500", letterSpacing: "0.1em" }}
             segments={isNarrow ? { ...segments, days: false } : segments}
             separator={separator === "none" ? { type: "none" } : { type: separator }}
             orientation={orientation}

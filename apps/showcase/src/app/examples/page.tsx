@@ -27,10 +27,10 @@ function placeholderNode() {
 
 function sizeFromBreakpoint(opts: BreakpointOpts) {
   if (opts.isLarge)
-    return { cardStyle: { width: "5rem", height: "7rem" }, digitStyle: { fontSize: "4.5rem" } };
+    return { cardStyle: { width: "4.5rem", height: "6rem" }, digitStyle: { fontSize: "4rem" } };
   if (opts.isMedium)
-    return { cardStyle: { width: "4rem", height: "5.5rem" }, digitStyle: { fontSize: "3.5rem" } };
-  return { cardStyle: { width: "3.25rem", height: "4.5rem" }, digitStyle: { fontSize: "2.75rem" } };
+    return { cardStyle: { width: "3.5rem", height: "5rem" }, digitStyle: { fontSize: "3rem" } };
+  return { cardStyle: { width: "3rem", height: "4rem" }, digitStyle: { fontSize: "2.5rem" } };
 }
 
 const examples: Array<{
@@ -39,144 +39,154 @@ const examples: Array<{
   code: string;
   node: (opts: BreakpointOpts) => React.ReactNode;
 }> = [
-  {
-    title: "Minimal Classic",
-    description: "The default appearance with no extra props.",
-    code: `<FlipClock targetDate={new Date("2026-12-31T00:00:00")} />`,
-    node: (opts) => {
-      if (!opts.mounted) return placeholderNode();
-      const { cardStyle, digitStyle } = sizeFromBreakpoint(opts);
-      return (
-        <FlipClock
-          targetDate={nextNewYear()}
-          cardStyle={cardStyle}
-          digitStyle={digitStyle}
-          segments={SEGMENTS_NO_DAYS}
-          orientation={opts.isSmall ? "column" : "row"}
-        />
-      );
-    },
-  },
-  {
-    title: "Large display",
-    description: "Bigger cards and digits for emphasis.",
-    code: `<FlipClock
-  targetDate={new Date("2026-12-31T00:00:00")}
-  cardStyle={{ width: "9rem", height: "12rem" }}
-  digitStyle={{ fontSize: "7rem" }}
+    {
+      title: "Minimal Classic",
+      description: "Clean black and white default appearance.",
+      code: `<FlipClock 
+  targetDate={new Date("2026-12-31")} 
 />`,
-    node: (opts) => {
-      if (!opts.mounted) return placeholderNode();
-      const base = sizeFromBreakpoint(opts);
-      const scale = opts.isLarge ? 1.15 : opts.isMedium ? 1 : 0.9;
-      const cardStyle = {
-        width: base.cardStyle.width,
-        height: base.cardStyle.height,
-      };
-      const digitStyle = { fontSize: base.digitStyle.fontSize };
-      return (
-        <FlipClock
-          targetDate={nextNewYear()}
-          cardStyle={cardStyle}
-          digitStyle={digitStyle}
-          segments={SEGMENTS_NO_DAYS}
-          orientation={opts.isSmall ? "column" : "row"}
-          scale={scale}
-        />
-      );
+      node: (opts) => {
+        if (!opts.mounted) return placeholderNode();
+        const { cardStyle, digitStyle } = sizeFromBreakpoint(opts);
+        return (
+          <FlipClock
+            targetDate={nextNewYear()}
+            cardStyle={{ ...cardStyle, background: "#1a1a1a", backgroundDark: "#0f0f0f", borderRadius: "0.5rem" }}
+            digitStyle={{ ...digitStyle, color: "#ffffff" }}
+            labelStyle={{ color: "#888", fontSize: "0.7rem", fontWeight: "500" }}
+            segments={SEGMENTS_NO_DAYS}
+            orientation={opts.isSmall ? "column" : "row"}
+          />
+        );
+      },
     },
-  },
-  {
-    title: "Custom styled",
-    description: "Themed cards and digits (e.g. Catppuccin).",
-    code: `<FlipClock
-  targetDate={new Date("2026-12-31T00:00:00")}
-  cardStyle={{
-    background: "#1e1e2e",
-    backgroundDark: "#181825",
-    borderRadius: "0.75rem",
-  }}
-  digitStyle={{ color: "#cba6f7", fontSize: "4.5rem" }}
-  labelStyle={{ color: "#a6adc8" }}
+    {
+      title: "With Colon Separator",
+      description: "Classic time display with colon separators.",
+      code: `<FlipClock 
+  targetDate={new Date("2026-12-31")} 
+  separator={{ type: "colon", color: "#1a1a1a" }}
+/>`,
+      node: (opts) => {
+        if (!opts.mounted) return placeholderNode();
+        const { cardStyle, digitStyle } = sizeFromBreakpoint(opts);
+        return (
+          <FlipClock
+            targetDate={nextNewYear()}
+            cardStyle={{ ...cardStyle, background: "#1a1a1a", backgroundDark: "#0f0f0f", borderRadius: "0.5rem" }}
+            digitStyle={{ ...digitStyle, color: "#ffffff" }}
+            labelStyle={{ color: "#888", fontSize: "0.7rem", fontWeight: "500" }}
+            separator={{ type: "colon", color: "#1a1a1a", size: "0.4rem" }}
+            segments={SEGMENTS_NO_DAYS}
+            orientation={opts.isSmall ? "column" : "row"}
+            scale={0.85}
+          />
+        );
+      },
+    },
+    {
+      title: "Inverted Theme",
+      description: "Light cards with dark digits for contrast.",
+      code: `<FlipClock 
+  targetDate={new Date("2026-12-31")} 
+  cardStyle={{ background: "#f5f5f5", backgroundDark: "#e5e5e5" }}
+  digitStyle={{ color: "#1a1a1a" }}
+/>`,
+      node: (opts) => {
+        if (!opts.mounted) return placeholderNode();
+        const { cardStyle, digitStyle } = sizeFromBreakpoint(opts);
+        return (
+          <FlipClock
+            targetDate={nextNewYear()}
+            cardStyle={{ ...cardStyle, background: "#f5f5f5", backgroundDark: "#e5e5e5", borderRadius: "0.5rem", boxShadow: "0 2px 8px rgba(0,0,0,0.1)" }}
+            digitStyle={{ ...digitStyle, color: "#1a1a1a" }}
+            labelStyle={{ color: "#666", fontSize: "0.7rem", fontWeight: "500" }}
+            lineStyle={{ color: "#d4d4d4" }}
+            segments={SEGMENTS_NO_DAYS}
+            orientation={opts.isSmall ? "column" : "row"}
+          />
+        );
+      },
+    },
+    {
+      title: "Purple Accent",
+      description: "Dark theme with purple accent color.",
+      code: `<FlipClock 
+  targetDate={new Date("2026-12-31")} 
+  cardStyle={{ background: "#1e1e2e", backgroundDark: "#181825" }}
+  digitStyle={{ color: "#cba6f7" }}
   separator={{ type: "colon", color: "#cba6f7" }}
 />`,
-    node: (opts) => {
-      if (!opts.mounted) return placeholderNode();
-      const { cardStyle: sizeCard, digitStyle: sizeDigit } = sizeFromBreakpoint(opts);
-      return (
-        <FlipClock
-          targetDate={nextNewYear()}
-          cardStyle={{
-            ...sizeCard,
-            background: "#1e1e2e",
-            backgroundDark: "#181825",
-            borderRadius: "0.75rem",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-          }}
-          digitStyle={{
-            ...sizeDigit,
-            color: "#cba6f7",
-            fontFamily: "var(--font-bebas), 'Bebas Neue', sans-serif",
-          }}
-          labelStyle={{
-            color: "#a6adc8",
-            fontFamily: "var(--font-inter), 'Inter', sans-serif",
-            fontSize: "0.8rem",
-          }}
-          separator={{ type: "colon", color: "#cba6f7", size: "0.5rem" }}
-          groupGap="2rem"
-          segments={SEGMENTS_NO_DAYS}
-          orientation={opts.isSmall ? "column" : "row"}
-        />
-      );
+      node: (opts) => {
+        if (!opts.mounted) return placeholderNode();
+        const { cardStyle, digitStyle } = sizeFromBreakpoint(opts);
+        return (
+          <FlipClock
+            targetDate={nextNewYear()}
+            cardStyle={{ ...cardStyle, background: "#1e1e2e", backgroundDark: "#181825", borderRadius: "0.5rem" }}
+            digitStyle={{ ...digitStyle, color: "#cba6f7" }}
+            labelStyle={{ color: "#a6adc8", fontSize: "0.7rem", fontWeight: "500" }}
+            separator={{ type: "colon", color: "#cba6f7", size: "0.4rem" }}
+            segments={SEGMENTS_NO_DAYS}
+            orientation={opts.isSmall ? "column" : "row"}
+            scale={0.85}
+          />
+        );
+      },
     },
-  },
-  {
-    title: "Warm amber",
-    description: "Retro warm palette with amber digits and dark cards.",
-    code: `<FlipClock
-  targetDate={new Date("2026-12-31T00:00:00")}
-  cardStyle={{
-    background: "#292524",
-    backgroundDark: "#1c1917",
-    borderRadius: "0.5rem",
-  }}
-  digitStyle={{ color: "#f59e0b", fontSize: "4.5rem" }}
-  labelStyle={{ color: "#a8a29e" }}
+    {
+      title: "Warm Amber",
+      description: "Retro warm palette with amber digits.",
+      code: `<FlipClock 
+  targetDate={new Date("2026-12-31")} 
+  cardStyle={{ background: "#292524", backgroundDark: "#1c1917" }}
+  digitStyle={{ color: "#f59e0b" }}
   separator={{ type: "dot", color: "#f59e0b" }}
 />`,
-    node: (opts) => {
-      if (!opts.mounted) return placeholderNode();
-      const { cardStyle: sizeCard, digitStyle: sizeDigit } = sizeFromBreakpoint(opts);
-      return (
-        <FlipClock
-          targetDate={nextNewYear()}
-          cardStyle={{
-            ...sizeCard,
-            background: "#292524",
-            backgroundDark: "#1c1917",
-            borderRadius: "0.5rem",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
-          }}
-          digitStyle={{
-            ...sizeDigit,
-            color: "#f59e0b",
-            fontFamily: "var(--font-bebas), 'Bebas Neue', sans-serif",
-          }}
-          labelStyle={{
-            color: "#a8a29e",
-            fontFamily: "var(--font-inter), 'Inter', sans-serif",
-            fontSize: "0.8rem",
-          }}
-          separator={{ type: "dot", color: "#f59e0b", size: "0.35rem" }}
-          groupGap="2rem"
-          segments={SEGMENTS_NO_DAYS}
-          orientation={opts.isSmall ? "column" : "row"}
-        />
-      );
+      node: (opts) => {
+        if (!opts.mounted) return placeholderNode();
+        const { cardStyle, digitStyle } = sizeFromBreakpoint(opts);
+        return (
+          <FlipClock
+            targetDate={nextNewYear()}
+            cardStyle={{ ...cardStyle, background: "#292524", backgroundDark: "#1c1917", borderRadius: "0.5rem" }}
+            digitStyle={{ ...digitStyle, color: "#f59e0b" }}
+            labelStyle={{ color: "#a8a29e", fontSize: "0.7rem", fontWeight: "500" }}
+            separator={{ type: "dot", color: "#f59e0b", size: "0.35rem" }}
+            segments={SEGMENTS_NO_DAYS}
+            orientation={opts.isSmall ? "column" : "row"}
+            scale={0.85}
+          />
+        );
+      },
     },
-  },
-];
+    {
+      title: "Emerald Green",
+      description: "Modern dark theme with emerald accents.",
+      code: `<FlipClock 
+  targetDate={new Date("2026-12-31")} 
+  cardStyle={{ background: "#064e3b", backgroundDark: "#022c22" }}
+  digitStyle={{ color: "#34d399" }}
+  separator={{ type: "colon", color: "#34d399" }}
+/>`,
+      node: (opts) => {
+        if (!opts.mounted) return placeholderNode();
+        const { cardStyle, digitStyle } = sizeFromBreakpoint(opts);
+        return (
+          <FlipClock
+            targetDate={nextNewYear()}
+            cardStyle={{ ...cardStyle, background: "#064e3b", backgroundDark: "#022c22", borderRadius: "0.5rem" }}
+            digitStyle={{ ...digitStyle, color: "#34d399" }}
+            labelStyle={{ color: "#6ee7b7", fontSize: "0.7rem", fontWeight: "500" }}
+            separator={{ type: "colon", color: "#34d399", size: "0.4rem" }}
+            segments={SEGMENTS_NO_DAYS}
+            orientation={opts.isSmall ? "column" : "row"}
+            scale={0.85}
+          />
+        );
+      },
+    },
+  ];
 
 export default function ExamplesPage() {
   const [mounted, setMounted] = useState(false);
@@ -195,68 +205,77 @@ export default function ExamplesPage() {
   return (
     <main
       style={{
-        padding: !mounted ? "1.5rem" : isNarrow ? "1rem" : "2rem",
+        padding: isNarrow ? "1.5rem 1rem" : "2rem 1.5rem",
         maxWidth: "900px",
         margin: "0 auto",
         minHeight: "100vh",
       }}
     >
-      <header style={{ marginBottom: "2rem" }}>
+      {/* Header */}
+      <header style={{ marginBottom: "2.5rem", textAlign: "center" }}>
         <h1
           style={{
-            fontSize: "clamp(1.75rem, 4vw, 2rem)",
+            fontFamily: "var(--font-space-mono), monospace",
+            fontSize: "clamp(1.5rem, 4vw, 2rem)",
             fontWeight: 700,
-            letterSpacing: "0.02em",
             color: "var(--text)",
             marginBottom: "0.5rem",
           }}
         >
-          EXAMPLES
+          Examples
         </h1>
         <p
           style={{
             color: "var(--text-muted)",
             fontSize: "1rem",
             lineHeight: 1.5,
-            maxWidth: "42ch",
           }}
         >
-          Copy and adapt these snippets for your project.
+          Copy and customize these snippets for your project.
         </p>
       </header>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+      {/* Examples Grid */}
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "1.5rem",
+        }}
+      >
         {examples.map((ex, index) => (
           <section
             key={ex.title}
             style={{
               background: "var(--bg)",
               borderRadius: "0.75rem",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
               border: "1px solid var(--border)",
-              padding: isNarrow ? "1.25rem" : "1.5rem",
-              overflow: "hidden",
+              padding: "1.25rem",
+              display: "flex",
+              flexDirection: "column",
             }}
           >
+            {/* Example header */}
             <div style={{ marginBottom: "1rem" }}>
               <span
                 style={{
-                  fontSize: "0.75rem",
+                  fontFamily: "var(--font-space-mono), monospace",
+                  fontSize: "0.6875rem",
                   fontWeight: 600,
                   color: "var(--text-muted)",
-                  letterSpacing: "0.05em",
+                  letterSpacing: "0.1em",
                   textTransform: "uppercase",
                 }}
               >
-                EXAMPLE {index + 1}
+                Example {index + 1}
               </span>
               <h2
                 style={{
-                  fontSize: "1.25rem",
+                  fontFamily: "var(--font-space-mono), monospace",
+                  fontSize: "1rem",
                   fontWeight: 600,
                   color: "var(--text)",
                   marginTop: "0.25rem",
-                  marginBottom: "0.5rem",
                 }}
               >
                 {ex.title}
@@ -264,41 +283,33 @@ export default function ExamplesPage() {
               <p
                 style={{
                   color: "var(--text-muted)",
-                  fontSize: "0.9375rem",
-                  lineHeight: 1.5,
+                  fontSize: "0.875rem",
+                  lineHeight: 1.4,
+                  marginTop: "0.25rem",
                 }}
               >
                 {ex.description}
               </p>
             </div>
+
+            {/* Clock preview */}
             <div
               style={{
+                background: "#fafafa",
+                borderRadius: "0.5rem",
+                border: "1px solid var(--border)",
+                padding: "1.25rem",
                 display: "flex",
-                flexDirection: "column",
                 alignItems: "center",
                 justifyContent: "center",
-                gap: "1rem",
-                marginBottom: "1.5rem",
-                minHeight: "10rem",
-                overflow: "visible",
+                minHeight: "8rem",
+                marginBottom: "1rem",
               }}
             >
-              <div
-                style={{
-                  background: "#fafafa",
-                  borderRadius: "0.75rem",
-                  border: "1px solid var(--border)",
-                  padding: "1.5rem",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: "100%",
-                  minHeight: "10rem",
-                }}
-              >
-                {ex.node(breakpointOpts)}
-              </div>
+              {ex.node(breakpointOpts)}
             </div>
+
+            {/* Code snippet */}
             <pre
               style={{
                 background: "var(--code-bg)",
@@ -306,10 +317,10 @@ export default function ExamplesPage() {
                 padding: "1rem",
                 borderRadius: "0.5rem",
                 overflow: "auto",
-                maxWidth: "100%",
-                fontSize: "clamp(0.75rem, 2vw, 0.8125rem)",
+                fontSize: "0.75rem",
                 lineHeight: 1.5,
                 margin: 0,
+                flex: 1,
               }}
             >
               <code>{ex.code}</code>
