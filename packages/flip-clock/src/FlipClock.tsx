@@ -434,7 +434,7 @@ const FlipCardUnit = ({
     right: 0,
     height: line.height,
     background: line.color,
-    zIndex: 10,
+    zIndex: 30,
   };
 
   const flipTopStyle: CSSProperties = {
@@ -689,11 +689,11 @@ const FlipClock = ({
       scale === 1
         ? cardBase
         : {
-            ...cardBase,
-            width: scaleCssLength(cardBase.width, scale),
-            height: scaleCssLength(cardBase.height, scale),
-            borderRadius: scaleCssLength(cardBase.borderRadius, scale),
-          },
+          ...cardBase,
+          width: scaleCssLength(cardBase.width, scale),
+          height: scaleCssLength(cardBase.height, scale),
+          borderRadius: scaleCssLength(cardBase.borderRadius, scale),
+        },
     [cardBase, scale]
   );
   const digit = useMemo(
