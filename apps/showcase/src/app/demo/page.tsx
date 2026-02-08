@@ -35,7 +35,7 @@ function buildSnippet(props: {
   const iso = props.targetDate.toISOString().slice(0, 19);
   lines.push(`<FlipClock`);
   lines.push(`  targetDate={new Date("${iso}")}`);
-  if (props.cardColor !== "#575757") {
+  if (props.cardColor !== "#1a1a1a") {
     lines.push(`  cardStyle={{ background: "${props.cardColor}", backgroundDark: "${props.cardColor}" }}`);
   }
   if (props.digitColor !== "#ffffff") {
@@ -55,11 +55,31 @@ function buildSnippet(props: {
   return lines.join("\n");
 }
 
+const labelStyle = {
+  fontFamily: "var(--font-space-mono), monospace",
+  fontSize: "0.75rem",
+  fontWeight: 600,
+  whiteSpace: "nowrap" as const,
+  color: "var(--text)",
+  textTransform: "uppercase" as const,
+  letterSpacing: "0.05em",
+};
+
+const inputStyle = {
+  padding: "0.5rem 0.75rem",
+  fontSize: "0.875rem",
+  border: "1px solid var(--border)",
+  borderRadius: "0.5rem",
+  background: "var(--bg)",
+  color: "var(--text)",
+  fontFamily: "var(--font-space-mono), monospace",
+};
+
 export default function DemoPage() {
   const [targetPreset, setTargetPreset] = useState<TargetPreset>("newYear");
   const [customDate, setCustomDate] = useState("");
   const [digitColor, setDigitColor] = useState("#ffffff");
-  const [cardColor, setCardColor] = useState("#575757");
+  const [cardColor, setCardColor] = useState("#1a1a1a");
   const [segments, setSegments] = useState({
     days: true,
     hours: true,
@@ -107,7 +127,36 @@ export default function DemoPage() {
 
   return (
     <main style={{ width: "100%" }}>
-      {/* Full-width clock section */}
+      {/* Header */}
+      <div
+        style={{
+          textAlign: "center",
+          padding: isSmall ? "2rem 1rem 1rem" : "3rem 2rem 1.5rem",
+        }}
+      >
+        <h1
+          style={{
+            fontFamily: "var(--font-space-mono), monospace",
+            fontSize: "clamp(1.5rem, 4vw, 2rem)",
+            fontWeight: 700,
+            color: "var(--text)",
+            margin: 0,
+          }}
+        >
+          Interactive Demo
+        </h1>
+        <p
+          style={{
+            color: "var(--text-muted)",
+            fontSize: "0.9375rem",
+            marginTop: "0.5rem",
+          }}
+        >
+          Customize the clock and see changes in real-time.
+        </p>
+      </div>
+
+      {/* Clock display section */}
       <div
         style={{
           width: "100%",
@@ -115,8 +164,8 @@ export default function DemoPage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          minHeight: "320px",
-          padding: "1rem",
+          minHeight: "280px",
+          padding: "1.5rem 1rem",
         }}
       >
         {!mounted ? (
@@ -131,46 +180,43 @@ export default function DemoPage() {
               ...cardStyleBreakpoint,
               background: cardColor,
               backgroundDark: cardColor,
+              borderRadius: "0.5rem",
             }}
             digitStyle={{ ...digitStyleBreakpoint, color: digitColor }}
+            labelStyle={{ color: "#888888", fontSize: "0.75rem", fontWeight: "500", letterSpacing: "0.1em" }}
             segments={isNarrow ? { ...segments, days: false } : segments}
             separator={separator === "none" ? { type: "none" } : { type: separator }}
-            labelStyle={{ visible: showLabels }}
             orientation={orientation}
             scale={separator === "none" ? 1 : 0.82}
           />
         )}
       </div>
 
-      {/* Horizontal control bar */}
+      {/* Controls section */}
       <section
         style={{
           width: "100%",
-          padding: "1rem 1.5rem",
-          background: "#fafafa",
+          padding: isSmall ? "1.5rem 1rem" : "2rem 1.5rem",
           borderTop: "1px solid var(--border)",
           borderBottom: "1px solid var(--border)",
         }}
       >
         <div
           style={{
-            display: "flex",
-            flexWrap: "wrap",
-            gap: "1.25rem",
-            alignItems: "center",
-            justifyContent: "center",
-            maxWidth: "1200px",
+            display: "grid",
+            gridTemplateColumns: isSmall ? "1fr" : "1fr 1fr",
+            gap: "1.5rem",
+            maxWidth: "700px",
             margin: "0 auto",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <label style={{ fontSize: "0.75rem", fontWeight: 600, whiteSpace: "nowrap" }}>
-              Target
-            </label>
+          {/* Target */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Target</label>
             <select
               value={targetPreset}
               onChange={(e) => setTargetPreset(e.target.value as TargetPreset)}
-              style={{ padding: "0.4rem 0.5rem", fontSize: "0.875rem" }}
+              style={inputStyle}
             >
               <option value="newYear">New Year</option>
               <option value="thirtyDays">30 days</option>
@@ -181,61 +227,92 @@ export default function DemoPage() {
                 type="datetime-local"
                 value={customDate}
                 onChange={(e) => setCustomDate(e.target.value)}
-                style={{ padding: "0.4rem", fontSize: "0.875rem" }}
+                style={inputStyle}
               />
             )}
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <label style={{ fontSize: "0.75rem", fontWeight: 600, whiteSpace: "nowrap" }}>
-              Digit
-            </label>
-            <input
-              type="color"
-              value={digitColor}
-              onChange={(e) => setDigitColor(e.target.value)}
-              style={{ width: "32px", height: "32px", padding: 0, border: "1px solid var(--border)", borderRadius: "4px" }}
-            />
-            <span style={{ fontSize: "0.8125rem" }}>{digitColor}</span>
+          {/* Digit Color */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Digit Color</label>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <input
+                type="color"
+                value={digitColor}
+                onChange={(e) => setDigitColor(e.target.value)}
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  padding: 0,
+                  border: "1px solid var(--border)",
+                  borderRadius: "0.5rem",
+                  cursor: "pointer",
+                }}
+              />
+              <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "0.8125rem", color: "var(--text-muted)" }}>
+                {digitColor}
+              </span>
+            </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <label style={{ fontSize: "0.75rem", fontWeight: 600, whiteSpace: "nowrap" }}>
-              Card
-            </label>
-            <input
-              type="color"
-              value={cardColor}
-              onChange={(e) => setCardColor(e.target.value)}
-              style={{ width: "32px", height: "32px", padding: 0, border: "1px solid var(--border)", borderRadius: "4px" }}
-            />
-            <span style={{ fontSize: "0.8125rem" }}>{cardColor}</span>
+          {/* Card Color */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Card Color</label>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <input
+                type="color"
+                value={cardColor}
+                onChange={(e) => setCardColor(e.target.value)}
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  padding: 0,
+                  border: "1px solid var(--border)",
+                  borderRadius: "0.5rem",
+                  cursor: "pointer",
+                }}
+              />
+              <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "0.8125rem", color: "var(--text-muted)" }}>
+                {cardColor}
+              </span>
+            </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
-            <span style={{ fontSize: "0.75rem", fontWeight: 600, whiteSpace: "nowrap" }}>
-              Segments
-            </span>
-            {(["days", "hours", "minutes", "seconds"] as const).map((seg) => (
-              <label key={seg} style={{ display: "flex", alignItems: "center", gap: "0.25rem" }}>
-                <input
-                  type="checkbox"
-                  checked={segments[seg]}
-                  onChange={(e) => setSegments((s) => ({ ...s, [seg]: e.target.checked }))}
-                />
-                <span style={{ fontSize: "0.8125rem", textTransform: "capitalize" }}>{seg}</span>
-              </label>
-            ))}
+          {/* Segments */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Segments</label>
+            <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
+              {(["days", "hours", "minutes", "seconds"] as const).map((seg) => (
+                <label
+                  key={seg}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.25rem",
+                    cursor: "pointer",
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    checked={segments[seg]}
+                    onChange={(e) => setSegments((s) => ({ ...s, [seg]: e.target.checked }))}
+                    style={{ accentColor: "var(--text)" }}
+                  />
+                  <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "0.8125rem", textTransform: "capitalize" }}>
+                    {seg}
+                  </span>
+                </label>
+              ))}
+            </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <label style={{ fontSize: "0.75rem", fontWeight: 600, whiteSpace: "nowrap" }}>
-              Separator
-            </label>
+          {/* Separator */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Separator</label>
             <select
               value={separator}
               onChange={(e) => setSeparator(e.target.value as "none" | "colon" | "dot")}
-              style={{ padding: "0.4rem 0.5rem", fontSize: "0.875rem" }}
+              style={inputStyle}
             >
               <option value="none">None</option>
               <option value="colon">Colon</option>
@@ -243,43 +320,60 @@ export default function DemoPage() {
             </select>
           </div>
 
-          <label style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <input
-              type="checkbox"
-              checked={showLabels}
-              onChange={(e) => setShowLabels(e.target.checked)}
-            />
-            <span style={{ fontSize: "0.875rem" }}>Labels</span>
-          </label>
+          {/* Labels */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Labels</label>
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+                cursor: "pointer",
+                padding: "0.5rem 0",
+              }}
+            >
+              <input
+                type="checkbox"
+                checked={showLabels}
+                onChange={(e) => setShowLabels(e.target.checked)}
+                style={{ accentColor: "var(--text)" }}
+              />
+              <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "0.8125rem" }}>
+                Show Labels
+              </span>
+            </label>
+          </div>
         </div>
       </section>
 
+      {/* Code output section */}
       <section
         style={{
-          margin: "2rem auto 0",
-          maxWidth: "1200px",
-          padding: "0 1.5rem",
+          padding: isSmall ? "2rem 1rem" : "3rem 1.5rem",
+          maxWidth: "900px",
+          margin: "0 auto",
         }}
       >
         <h2
           style={{
+            fontFamily: "var(--font-space-mono), monospace",
             fontSize: "1rem",
             fontWeight: 600,
-            marginBottom: "0.5rem",
+            marginBottom: "1rem",
             color: "var(--text)",
           }}
         >
-          Code
+          Generated Code
         </h2>
         <pre
           style={{
             background: "var(--code-bg)",
             color: "var(--code-text)",
-            padding: "1rem",
-            borderRadius: "0.5rem",
+            padding: "1.25rem",
+            borderRadius: "0.75rem",
             overflow: "auto",
-            fontSize: "0.8125rem",
-            lineHeight: 1.5,
+            fontSize: "0.875rem",
+            lineHeight: 1.6,
           }}
         >
           <code>{snippet}</code>
