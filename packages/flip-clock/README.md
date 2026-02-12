@@ -5,7 +5,7 @@ A customizable flip clock countdown for React with realistic 3D flip-card animat
 [![npm version](https://img.shields.io/npm/v/@hasthiya_/flip-clock)](https://www.npmjs.com/package/@hasthiya_/flip-clock)
 [![license](https://img.shields.io/npm/l/@hasthiya_/flip-clock)](./LICENSE)
 
-**Live Demo:** [flip-clock-livid.vercel.app](https://flip-clock-livid.vercel.app) | [Demo](https://flip-clock-livid.vercel.app/demo) | [Docs](https://flip-clock-livid.vercel.app/docs) | [Examples](https://flip-clock-livid.vercel.app/examples)
+**Live Demo:** [flip-clock-livid.vercel.app](https://flip-clock-livid.vercel.app) | [Demo](https://flip-clock-livid.vercel.app/demo) | [Docs](https://flip-clock-livid.vercel.app/docs) | [Examples](https://flip-clock-livid.vercel.app/examples) | [GitHub](https://github.com/Hasthiya/flip/tree/main/packages/flip-clock)
 
 
 ## Features

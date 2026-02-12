@@ -1,7 +1,13 @@
 {
   "name": "@hasthiya_/flip-clock",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A fully self-contained, customizable flip clock countdown React component",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hasthiya/flip.git",
+    "directory": "packages/flip-clock"
+  },
+  "homepage": "https://github.com/Hasthiya/flip/tree/main/packages/flip-clock",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",

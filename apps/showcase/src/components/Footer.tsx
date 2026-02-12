@@ -100,7 +100,7 @@ export default function Footer() {
 
                 {/* Right side - GitHub profile */}
                 <a
-                    href="https://github.com/Hasthiya"
+                    href="https://github.com/Hasthiya/flip/tree/main/packages/flip-clock"
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
