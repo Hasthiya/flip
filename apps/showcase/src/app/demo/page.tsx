@@ -5,6 +5,94 @@ import FlipClock from "@hasthiya_/flip-clock";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type TargetPreset = "newYear" | "thirtyDays" | "custom";
+type DigitFont =
+  | "spaceMono"
+  | "inter"
+  | "bebasNeue"
+  | "roboto"
+  | "openSans"
+  | "lato"
+  | "montserrat"
+  | "raleway"
+  | "poppins"
+  | "sourceSansPro"
+  | "nunito"
+  | "playfairDisplay"
+  | "merriweather"
+  | "ptSans"
+  | "ubuntu"
+  | "notoSans"
+  | "workSans"
+  | "dmSans"
+  | "manrope"
+  | "plusJakartaSans"
+  | "outfit"
+  | "sora";
+type CardShadowPreset = "none" | "soft" | "medium" | "strong";
+
+const DIGIT_FONT_MAP: Record<DigitFont, string> = {
+  spaceMono: "var(--font-space-mono), monospace",
+  inter: "var(--font-inter), sans-serif",
+  bebasNeue: "var(--font-bebas), sans-serif",
+  roboto: "var(--font-roboto), sans-serif",
+  openSans: "var(--font-open-sans), sans-serif",
+  lato: "var(--font-lato), sans-serif",
+  montserrat: "var(--font-montserrat), sans-serif",
+  raleway: "var(--font-raleway), sans-serif",
+  poppins: "var(--font-poppins), sans-serif",
+  sourceSansPro: "var(--font-source-sans-pro), sans-serif",
+  nunito: "var(--font-nunito), sans-serif",
+  playfairDisplay: "var(--font-playfair-display), serif",
+  merriweather: "var(--font-merriweather), serif",
+  ptSans: "var(--font-pt-sans), sans-serif",
+  ubuntu: "var(--font-ubuntu), sans-serif",
+  notoSans: "var(--font-noto-sans), sans-serif",
+  workSans: "var(--font-work-sans), sans-serif",
+  dmSans: "var(--font-dm-sans), sans-serif",
+  manrope: "var(--font-manrope), sans-serif",
+  plusJakartaSans: "var(--font-plus-jakarta-sans), sans-serif",
+  outfit: "var(--font-outfit), sans-serif",
+  sora: "var(--font-sora), sans-serif",
+};
+
+const DIGIT_FONT_DISPLAY_NAMES: Record<DigitFont, string> = {
+  spaceMono: "Space Mono",
+  inter: "Inter",
+  bebasNeue: "Bebas Neue",
+  roboto: "Roboto",
+  openSans: "Open Sans",
+  lato: "Lato",
+  montserrat: "Montserrat",
+  raleway: "Raleway",
+  poppins: "Poppins",
+  sourceSansPro: "Source Sans Pro",
+  nunito: "Nunito",
+  playfairDisplay: "Playfair Display",
+  merriweather: "Merriweather",
+  ptSans: "PT Sans",
+  ubuntu: "Ubuntu",
+  notoSans: "Noto Sans",
+  workSans: "Work Sans",
+  dmSans: "DM Sans",
+  manrope: "Manrope",
+  plusJakartaSans: "Plus Jakarta Sans",
+  outfit: "Outfit",
+  sora: "Sora",
+};
+
+const CARD_SHADOW_MAP: Record<CardShadowPreset, string> = {
+  none: "none",
+  soft: "0 4px 12px rgba(0, 0, 0, 0.15)",
+  medium: "0 8px 24px rgba(0, 0, 0, 0.3)",
+  strong: "0 16px 48px rgba(0, 0, 0, 0.5)",
+};
+
+const DEFAULT_DIGIT_FONT: DigitFont = "bebasNeue";
+const DEFAULT_CARD_SHADOW: CardShadowPreset = "medium";
+
+function randomHex(): string {
+  return "#" + Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, "0");
+}
 
 function getTargetDate(preset: TargetPreset, customDate: string): Date {
   const now = new Date();
@@ -23,23 +111,62 @@ function getTargetDate(preset: TargetPreset, customDate: string): Date {
   return new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0);
 }
 
+const DEFAULT_CARD_BG = "#1a1a1a";
+const DEFAULT_CARD_BG_DARK = "#0f0f0f";
+const DEFAULT_BOUNCE = 8;
+const DEFAULT_FLIP_DURATION = 300;
+const DEFAULT_SCALE = 1;
+const DEFAULT_BORDER_RADIUS = "0.5rem";
+const DEFAULT_GROUP_GAP = "3rem";
+const DEFAULT_CARD_GAP = "0.375rem";
+
 function buildSnippet(props: {
   targetDate: Date;
   digitColor: string;
-  cardColor: string;
+  digitFont: DigitFont;
+  cardBackground: string;
+  cardBackgroundDark: string;
+  cardShadow: CardShadowPreset;
   segments: { days: boolean; hours: boolean; minutes: boolean; seconds: boolean };
   separator: "none" | "colon" | "dot";
   showLabels: boolean;
+  bounceIntensity: number;
+  scale: number;
+  borderRadius: string;
+  groupGap: string;
+  cardGap: string;
 }): string {
   const lines: string[] = [];
   const iso = props.targetDate.toISOString().slice(0, 19);
   lines.push(`<FlipClock`);
   lines.push(`  targetDate={new Date("${iso}")}`);
-  if (props.cardColor !== "#1a1a1a") {
-    lines.push(`  cardStyle={{ background: "${props.cardColor}", backgroundDark: "${props.cardColor}" }}`);
+  const cardStyleProps: string[] = [];
+  if (props.cardBackground !== DEFAULT_CARD_BG) {
+    cardStyleProps.push(`background: "${props.cardBackground}"`);
   }
+  if (props.cardBackgroundDark !== DEFAULT_CARD_BG_DARK) {
+    cardStyleProps.push(`backgroundDark: "${props.cardBackgroundDark}"`);
+  }
+  if (props.borderRadius !== DEFAULT_BORDER_RADIUS) {
+    cardStyleProps.push(`borderRadius: "${props.borderRadius}"`);
+  }
+  if (props.cardShadow !== DEFAULT_CARD_SHADOW) {
+    const shadowValue = CARD_SHADOW_MAP[props.cardShadow];
+    cardStyleProps.push(`boxShadow: "${shadowValue}"`);
+  }
+  if (cardStyleProps.length > 0) {
+    lines.push(`  cardStyle={{ ${cardStyleProps.join(", ")} }}`);
+  }
+  const digitStyleProps: string[] = [];
   if (props.digitColor !== "#ffffff") {
-    lines.push(`  digitStyle={{ color: "${props.digitColor}" }}`);
+    digitStyleProps.push(`color: "${props.digitColor}"`);
+  }
+  if (props.digitFont !== DEFAULT_DIGIT_FONT) {
+    const fontFamily = DIGIT_FONT_MAP[props.digitFont];
+    digitStyleProps.push(`fontFamily: "${fontFamily}"`);
+  }
+  if (digitStyleProps.length > 0) {
+    lines.push(`  digitStyle={{ ${digitStyleProps.join(", ")} }}`);
   }
   const seg = props.segments;
   if (!seg.days || !seg.hours || !seg.minutes || !seg.seconds) {
@@ -50,6 +177,18 @@ function buildSnippet(props: {
   }
   if (!props.showLabels) {
     lines.push(`  labelStyle={{ visible: false }}`);
+  }
+  if (props.bounceIntensity !== DEFAULT_BOUNCE) {
+    lines.push(`  animation={{ bounceIntensity: ${props.bounceIntensity} }}`);
+  }
+  if (props.scale !== DEFAULT_SCALE) {
+    lines.push(`  scale={${props.scale}}`);
+  }
+  if (props.groupGap !== DEFAULT_GROUP_GAP) {
+    lines.push(`  groupGap="${props.groupGap}"`);
+  }
+  if (props.cardGap !== DEFAULT_CARD_GAP) {
+    lines.push(`  cardGap="${props.cardGap}"`);
   }
   lines.push(`/>`);
   return lines.join("\n");
@@ -79,7 +218,13 @@ export default function DemoPage() {
   const [targetPreset, setTargetPreset] = useState<TargetPreset>("newYear");
   const [customDate, setCustomDate] = useState("");
   const [digitColor, setDigitColor] = useState("#ffffff");
-  const [cardColor, setCardColor] = useState("#1a1a1a");
+  const [cardBackground, setCardBackground] = useState("#1a1a1a");
+  const [cardBackgroundDark, setCardBackgroundDark] = useState("#0f0f0f");
+  const [bounceIntensity, setBounceIntensity] = useState(8);
+  const [scale, setScale] = useState(1);
+  const [borderRadius, setBorderRadius] = useState("0.5rem");
+  const [groupGap, setGroupGap] = useState("3rem");
+  const [cardGap, setCardGap] = useState("0.375rem");
   const [segments, setSegments] = useState({
     days: true,
     hours: true,
@@ -88,6 +233,8 @@ export default function DemoPage() {
   });
   const [separator, setSeparator] = useState<"none" | "colon" | "dot">("none");
   const [showLabels, setShowLabels] = useState(true);
+  const [digitFont, setDigitFont] = useState<DigitFont>(DEFAULT_DIGIT_FONT);
+  const [cardShadow, setCardShadow] = useState<CardShadowPreset>(DEFAULT_CARD_SHADOW);
 
   const targetDate = useMemo(
     () => getTargetDate(targetPreset, customDate),
@@ -117,12 +264,35 @@ export default function DemoPage() {
       buildSnippet({
         targetDate,
         digitColor,
-        cardColor,
+        digitFont,
+        cardBackground,
+        cardBackgroundDark,
+        cardShadow,
         segments,
         separator,
         showLabels,
+        bounceIntensity,
+        scale,
+        borderRadius,
+        groupGap,
+        cardGap,
       }),
-    [targetDate, digitColor, cardColor, segments, separator, showLabels]
+    [
+      targetDate,
+      digitColor,
+      digitFont,
+      cardBackground,
+      cardBackgroundDark,
+      cardShadow,
+      segments,
+      separator,
+      showLabels,
+      bounceIntensity,
+      scale,
+      borderRadius,
+      groupGap,
+      cardGap,
+    ]
   );
 
   return (
@@ -159,6 +329,8 @@ export default function DemoPage() {
       {/* Clock display section */}
       <div
         style={{
+          position: "sticky",
+          top: "0",
           width: "100%",
           display: "flex",
           flexDirection: "column",
@@ -166,6 +338,10 @@ export default function DemoPage() {
           justifyContent: "center",
           minHeight: "280px",
           padding: "1.5rem 1rem",
+          background: "var(--bg)",
+          zIndex: 10,
+          borderBottom: "1px solid var(--border)",
+          boxShadow: "0 2px 8px rgba(0, 0, 0, 0.05)",
         }}
       >
         {!mounted ? (
@@ -178,16 +354,20 @@ export default function DemoPage() {
             targetDate={targetDate}
             cardStyle={{
               ...cardStyleBreakpoint,
-              background: cardColor,
-              backgroundDark: cardColor,
-              borderRadius: "0.5rem",
+              background: cardBackground,
+              backgroundDark: cardBackgroundDark,
+              borderRadius,
+              boxShadow: CARD_SHADOW_MAP[cardShadow],
             }}
-            digitStyle={{ ...digitStyleBreakpoint, color: digitColor }}
+            digitStyle={{ ...digitStyleBreakpoint, color: digitColor, fontFamily: DIGIT_FONT_MAP[digitFont] }}
             labelStyle={{ visible: showLabels, color: "#888888", fontSize: "0.75rem", fontWeight: "500", letterSpacing: "0.1em" }}
             segments={isNarrow ? { ...segments, days: false } : segments}
             separator={separator === "none" ? { type: "none" } : { type: separator }}
             orientation={orientation}
-            scale={separator === "none" ? 1 : 0.82}
+            animation={{ bounceIntensity, flipDuration: DEFAULT_FLIP_DURATION }}
+            scale={scale}
+            groupGap={groupGap}
+            cardGap={cardGap}
           />
         )}
       </div>
@@ -203,13 +383,36 @@ export default function DemoPage() {
       >
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: isSmall ? "1fr" : "1fr 1fr",
-            gap: "1.5rem",
-            maxWidth: "700px",
+            maxWidth: "900px",
             margin: "0 auto",
+            display: "flex",
+            flexDirection: "column",
+            gap: "2rem",
           }}
         >
+          {/* Content */}
+          <div>
+            <h3
+              style={{
+                fontFamily: "var(--font-space-mono), monospace",
+                fontSize: "0.6875rem",
+                fontWeight: 600,
+                color: "var(--text-muted)",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Content
+            </h3>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: isSmall ? "1fr" : "1fr 1fr",
+                gap: "1.5rem",
+              }}
+            >
+          {/* Content group */}
           {/* Target */}
           <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             <label style={labelStyle}>Target</label>
@@ -232,7 +435,56 @@ export default function DemoPage() {
             )}
           </div>
 
-          {/* Digit Color */}
+          {/* Randomize colors button */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Randomize</label>
+            <button
+              type="button"
+              onClick={() => {
+                setDigitColor(randomHex());
+                setCardBackground(randomHex());
+                setCardBackgroundDark(randomHex());
+              }}
+              style={{
+                ...inputStyle,
+                cursor: "pointer",
+                fontWeight: 600,
+              }}
+            >
+              Randomize colors
+            </button>
+          </div>
+
+          {/* Colors */}
+          <div style={{ gridColumn: isSmall ? "1" : "1 / -1" }}>
+            <h3
+              style={{
+                fontFamily: "var(--font-space-mono), monospace",
+                fontSize: "0.6875rem",
+                fontWeight: 600,
+                color: "var(--text-muted)",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Colors
+            </h3>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Digit Font</label>
+            <select
+              value={digitFont}
+              onChange={(e) => setDigitFont(e.target.value as DigitFont)}
+              style={inputStyle}
+            >
+              {(Object.keys(DIGIT_FONT_DISPLAY_NAMES) as DigitFont[]).map((font) => (
+                <option key={font} value={font}>
+                  {DIGIT_FONT_DISPLAY_NAMES[font]}
+                </option>
+              ))}
+            </select>
+          </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
             <label style={labelStyle}>Digit Color</label>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
@@ -255,14 +507,14 @@ export default function DemoPage() {
             </div>
           </div>
 
-          {/* Card Color */}
+          {/* Card background (top half) */}
           <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            <label style={labelStyle}>Card Color</label>
+            <label style={labelStyle}>Card background (top)</label>
             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
               <input
                 type="color"
-                value={cardColor}
-                onChange={(e) => setCardColor(e.target.value)}
+                value={cardBackground}
+                onChange={(e) => setCardBackground(e.target.value)}
                 style={{
                   width: "40px",
                   height: "40px",
@@ -273,7 +525,30 @@ export default function DemoPage() {
                 }}
               />
               <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "0.8125rem", color: "var(--text-muted)" }}>
-                {cardColor}
+                {cardBackground}
+              </span>
+            </div>
+          </div>
+
+          {/* Card background dark (bottom half) */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Card background (bottom)</label>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <input
+                type="color"
+                value={cardBackgroundDark}
+                onChange={(e) => setCardBackgroundDark(e.target.value)}
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  padding: 0,
+                  border: "1px solid var(--border)",
+                  borderRadius: "0.5rem",
+                  cursor: "pointer",
+                }}
+              />
+              <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "0.8125rem", color: "var(--text-muted)" }}>
+                {cardBackgroundDark}
               </span>
             </div>
           </div>
@@ -342,6 +617,141 @@ export default function DemoPage() {
                 Show Labels
               </span>
             </label>
+          </div>
+
+          {/* Animation */}
+          <div style={{ gridColumn: isSmall ? "1" : "1 / -1" }}>
+            <h3
+              style={{
+                fontFamily: "var(--font-space-mono), monospace",
+                fontSize: "0.6875rem",
+                fontWeight: 600,
+                color: "var(--text-muted)",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Animation
+            </h3>
+          </div>
+          {/* Bounce intensity */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Bounce intensity</label>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+              <input
+                type="range"
+                min={0}
+                max={30}
+                step={1}
+                value={bounceIntensity}
+                onChange={(e) => setBounceIntensity(Number(e.target.value))}
+                style={{ flex: 1, accentColor: "var(--text)" }}
+              />
+              <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "0.8125rem", color: "var(--text-muted)", minWidth: "2.5rem" }}>
+                {bounceIntensity}°
+              </span>
+            </div>
+          </div>
+
+          {/* Size & Spacing */}
+          <div style={{ gridColumn: isSmall ? "1" : "1 / -1" }}>
+            <h3
+              style={{
+                fontFamily: "var(--font-space-mono), monospace",
+                fontSize: "0.6875rem",
+                fontWeight: 600,
+                color: "var(--text-muted)",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                marginBottom: "0.75rem",
+              }}
+            >
+              Size & Spacing
+            </h3>
+          </div>
+          {/* Scale */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Scale</label>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+              <input
+                type="range"
+                min={0.5}
+                max={2}
+                step={0.1}
+                value={scale}
+                onChange={(e) => setScale(Number(e.target.value))}
+                style={{ flex: 1, accentColor: "var(--text)" }}
+              />
+              <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "0.8125rem", color: "var(--text-muted)", minWidth: "2.5rem" }}>
+                {scale.toFixed(1)}
+              </span>
+            </div>
+          </div>
+
+          {/* Border radius */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Border radius</label>
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+              <input
+                type="range"
+                min={0}
+                max={8}
+                step={1}
+                value={Math.min(8, Math.max(0, Math.round((parseFloat(borderRadius) || 0.5) * 4)))}
+                onChange={(e) => setBorderRadius((e.target.valueAsNumber * 0.25).toFixed(2) + "rem")}
+                style={{ flex: 1, accentColor: "var(--text)" }}
+              />
+              <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "0.8125rem", color: "var(--text-muted)", minWidth: "3rem" }}>
+                {borderRadius}
+              </span>
+            </div>
+          </div>
+
+          {/* Group gap */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Group gap</label>
+            <select
+              value={groupGap}
+              onChange={(e) => setGroupGap(e.target.value)}
+              style={inputStyle}
+            >
+              {["1rem", "1.5rem", "2rem", "2.5rem", "3rem", "3.5rem", "4rem", "4.5rem", "5rem"].map((v) => (
+                <option key={v} value={v}>{v}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Card gap */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Card gap</label>
+            <select
+              value={cardGap}
+              onChange={(e) => setCardGap(e.target.value)}
+              style={inputStyle}
+            >
+              {["0.125rem", "0.25rem", "0.375rem", "0.5rem", "0.75rem", "1rem"].map((v) => (
+                <option key={v} value={v}>{v}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* Clock shadow */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+            <label style={labelStyle}>Clock shadow</label>
+            <select
+              value={cardShadow}
+              onChange={(e) => setCardShadow(e.target.value as CardShadowPreset)}
+              style={inputStyle}
+            >
+              {(Object.keys(CARD_SHADOW_MAP) as CardShadowPreset[]).map((preset) => (
+                <option key={preset} value={preset}>
+                  {preset.charAt(0).toUpperCase() + preset.slice(1)}
+                </option>
+              ))}
+            </select>
+          </div>
+            </div>
           </div>
         </div>
       </section>
