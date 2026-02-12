@@ -165,6 +165,10 @@ export const metadata: Metadata = {
     template: "Flip Clock | %s",
   },
   description: "A customizable flip clock countdown React component",
+  icons: {
+    icon: "/icon",
+    apple: "/apple-icon",
+  },
 };
 
 export default function RootLayout({
