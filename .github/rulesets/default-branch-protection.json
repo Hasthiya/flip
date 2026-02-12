@@ -1,0 +1,39 @@
+{
+  "name": "Default branch protection",
+  "target": "branch",
+  "source_type": "Repository",
+  "enforcement": "active",
+  "conditions": {
+    "ref_name": {
+      "include": ["~DEFAULT_BRANCH"],
+      "exclude": []
+    }
+  },
+  "rules": [
+    {
+      "type": "deletion"
+    },
+    {
+      "type": "non_fast_forward"
+    },
+    {
+      "type": "pull_request",
+      "parameters": {
+        "require_code_owner_review": false,
+        "require_last_push_approval": false,
+        "dismiss_stale_reviews_on_push": false,
+        "required_approving_review_count": 1,
+        "required_review_thread_resolution": false
+      }
+    },
+    {
+      "type": "commit_message_pattern",
+      "parameters": {
+        "name": "Conventional commits",
+        "negate": false,
+        "pattern": "^(build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test)(\\([\\w\\-\\.]+\\))?(!)?: .+",
+        "operator": "regex"
+      }
+    }
+  ]
+}

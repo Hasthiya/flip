@@ -4,7 +4,7 @@ Monorepo for **flip-clock**, a distributable React flip clock countdown componen
 
 ## Structure
 
-- **packages/flip-clock** — npm package: the FlipClock component (publish this to npm).
+- **packages/flip-clock** — npm package: the FlipClock component.
 - **apps/showcase** — Next.js app that demos the component.
 
 ## Development
@@ -35,16 +35,8 @@ Monorepo for **flip-clock**, a distributable React flip clock countdown componen
 
 After changing the library, rebuild with `pnpm --filter flip-clock build` (or use `pnpm --filter flip-clock dev` for watch mode), then refresh the showcase.
 
-## Publishing
-
-Publish only the **flip-clock** package:
-
-```bash
-cd packages/flip-clock
-pnpm build
-npm publish
-# or
-pnpm publish
-```
-
 The root of this repo is `private: true` and is not published.
+
+## License
+
+MIT
