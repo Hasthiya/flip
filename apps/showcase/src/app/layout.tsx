@@ -22,7 +22,10 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "FlipClock Showcase",
+  title: {
+    default: "Flip Clock",
+    template: "Flip Clock | %s",
+  },
   description: "A customizable flip clock countdown React component",
 };
 
