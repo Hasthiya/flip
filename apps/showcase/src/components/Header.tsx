@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import ThemeSwitch from "./ThemeSwitch";
 
 export default function Header() {
   return (
@@ -30,7 +33,8 @@ export default function Header() {
           FlipClock
         </span>
       </Link>
-      <nav style={{ display: "flex", gap: "1.5rem" }}>
+      <nav style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+        <ThemeSwitch />
         <Link
           href="/demo"
           style={{

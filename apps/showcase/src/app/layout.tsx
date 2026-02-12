@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Bebas_Neue, Inter, Space_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -36,6 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${bebasNeue.variable} ${inter.variable} ${spaceMono.variable}`}>
+      <Script src="/theme-init.js" strategy="beforeInteractive" />
       <body>
         <Header />
         {children}

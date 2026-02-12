@@ -58,44 +58,45 @@ export default function HomePage() {
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: isSmall ? "3rem 1rem" : "4rem 2rem",
+          padding: isSmall ? "3rem 1rem" : "5rem 2rem",
           gap: "2rem",
           textAlign: "center",
+          background: "var(--bg)",
         }}
       >
-        {/* Headline with retro font */}
         <div className="animate-fade-in">
           <h1
             style={{
               fontFamily: "var(--font-space-mono), monospace",
-              fontSize: "clamp(2rem, 6vw, 3.5rem)",
-              fontWeight: 700,
+              fontSize: "clamp(2rem, 5vw, 3rem)",
+              fontWeight: 600,
               color: "var(--text)",
-              lineHeight: 1.1,
+              lineHeight: 1.2,
               margin: 0,
-              letterSpacing: "-0.02em",
+              letterSpacing: "-0.03em",
             }}
           >
             Flip Clock for React
           </h1>
           <p
             style={{
-              fontSize: "clamp(1rem, 2.5vw, 1.125rem)",
+              fontSize: "clamp(1.2rem, 2vw, 1rem)",
               color: "var(--text-muted)",
-              maxWidth: "480px",
+              maxWidth: "420px",
               lineHeight: 1.6,
-              margin: "1rem auto 0",
+              margin: "0.75rem auto 0",
+              fontWeight: 400,
             }}
           >
-            A customizable retro{" "}
-            <span style={{ fontFamily: "var(--font-space-mono), monospace", color: "var(--text)", fontWeight: 600 }}>
-              flip clock
+            A{" "}
+            <span style={{ fontFamily: "var(--font-space-mono), monospace", fontWeight: 600, color: "var(--text)" }}>
+              customizable
             </span>{" "}
-            countdown{" "}
-            <span style={{ fontFamily: "var(--font-space-mono), monospace", color: "var(--text)", fontWeight: 600 }}>
-              component
+            flip clock{" "}
+            <span style={{ fontFamily: "var(--font-space-mono), monospace", fontWeight: 600, color: "var(--text)" }}>
+              countdown
             </span>{" "}
-            with smooth animations.
+            component for React.
           </p>
         </div>
 
@@ -134,10 +135,10 @@ export default function HomePage() {
           className="animate-fade-in-delay-2"
           style={{
             display: "flex",
-            gap: "1rem",
+            gap: "0.75rem",
             flexWrap: "wrap",
             justifyContent: "center",
-            marginTop: "4rem",
+            marginTop: "3rem",
           }}
         >
           <Link href="/demo" className="cta-primary">
@@ -149,31 +150,83 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Features Section */}
+      <section
+        style={{
+          padding: isSmall ? "4rem 1rem" : "5rem 2rem",
+          background: "var(--bg)",
+          borderTop: "1px solid var(--border)",
+        }}
+      >
+        <div className="section-container" style={{ maxWidth: "640px" }}>
+          <ul
+            style={{
+              display: "grid",
+              gridTemplateColumns: isSmall ? "1fr" : "repeat(2, 1fr)",
+              gap: isSmall ? "1.5rem" : "2rem 3rem",
+              listStyle: "none",
+              margin: 0,
+              padding: 0,
+            }}
+          >
+            {[
+              { title: "Customizable", desc: "Colors, sizes, segments, and animation via props." },
+              { title: "Zero dependencies", desc: "No external CSS or runtime deps beyond React." },
+              { title: "Performant", desc: "Lightweight, minimal re-renders, smooth animations." },
+              { title: "Accessible", desc: "Semantic markup and ARIA support." },
+            ].map((item) => (
+              <li key={item.title} style={{ display: "flex", flexDirection: "column", gap: "0.25rem" }}>
+                <span
+                  style={{
+                    fontFamily: "var(--font-space-mono), monospace",
+                    fontSize: "0.8125rem",
+                    fontWeight: 600,
+                    color: "var(--text)",
+                  }}
+                >
+                  {item.title}
+                </span>
+                <span
+                  style={{
+                    fontSize: "0.8125rem",
+                    color: "var(--text-muted)",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {item.desc}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* Quick Start Section */}
       <section
         style={{
           padding: isSmall ? "4rem 1rem" : "5rem 2rem",
           background: "var(--bg)",
+          borderTop: "1px solid var(--border)",
         }}
       >
-        <div className="section-container" style={{ maxWidth: "700px" }}>
-          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <h2
-              style={{
-                fontFamily: "var(--font-space-mono), monospace",
-                fontSize: "clamp(1.25rem, 3vw, 1.5rem)",
-                fontWeight: 700,
-                color: "var(--text)",
-              }}
-            >
-              Quick Start
-            </h2>
-          </div>
-
+        <div className="section-container" style={{ maxWidth: "640px" }}>
+          <h2
+            style={{
+              fontFamily: "var(--font-space-mono), monospace",
+              fontSize: "0.875rem",
+              fontWeight: 600,
+              color: "var(--text-muted)",
+              marginBottom: "1rem",
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+            }}
+          >
+            Quick Start
+          </h2>
           <div
             style={{
               background: "var(--code-bg)",
-              borderRadius: "0.75rem",
+              borderRadius: "0.5rem",
               padding: isSmall ? "1.25rem" : "1.5rem",
               overflow: "auto",
             }}

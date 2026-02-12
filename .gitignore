@@ -27,6 +27,7 @@ Thumbs.db
 *.swp
 *.swo
 .vscode/
+.cursor/
 
 # Misc
 .turbo
